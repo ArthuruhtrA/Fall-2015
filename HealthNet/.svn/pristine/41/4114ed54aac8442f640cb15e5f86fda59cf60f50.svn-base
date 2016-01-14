@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Not Authorized</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+
+<h3>You are not authorized to access this page.  Logout or go back.</h3>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" >logout</a>
+
+
+</body>
+
+
+</html>

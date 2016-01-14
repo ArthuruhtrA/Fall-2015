@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Calendar</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> {{ pOd | title }}</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		{% if pOd == "doctor" %}
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+		{% endif %}
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+			{% if pOd == "patient" %}
+			<li class="dropdown">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<span class="glyphicon glyphicon-user"></span>
+				{{ name }}<span class="caret"></span>
+			  </a>
+			  <ul class="dropdown-menu">
+				<li><a href="/patientviewpatientdetails">View Profile</a></li>
+			    <li><a href="/patienteditpatientdetails">Edit Profile</a></li>
+			  </ul>
+			</li>
+			{% else %}
+			<li>
+			  <a>
+				<span class="glyphicon glyphicon-user"></span>
+				{{ name }}
+			  </a>
+			</li>
+			{% endif %}
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+	  <div class="col-md-1">
+	<ul class="pager visible-lg visible-md">
+		<li>
+			<a href="/calendar/{{ prev.year }}/{{ prev.month }}/">
+				<span class="glyphicon glyphicon-chevron-up"></span>
+			</a>
+		</li>
+		<li>
+		  <a href="/calendar/">
+			Current&nbsp;&nbsp;
+		  </a>
+		</li>
+		<li>
+			<a href="/calendar/{{ nex.year }}/{{ nex.month }}/">
+				<span class="glyphicon glyphicon-chevron-down"</span>
+			</a>
+		</li>
+	</ul>
+	  </div>
+		<div class="col-md-8 well">
+		  <span class="h1">{{ monthName }} - {{ year }}</span>
+		  <div class="panel">
+			<table class="table table-bordered">
+				<tr class="thead">
+					<th>Sunday</th>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+				</tr>
+				{% for i in grid %}
+					<tr>
+						{% for n in i %}
+							{% if n.0 %}
+								<td class="col-md-1{% if today.year == year and today.month == month and today.day == n.0 %} success{% elif day == n.0 %} active{% endif %}">
+									<a href="/calendar/{{ year }}/{{ month }}/{{ n.0 }}/">
+										<div>
+											<p>
+												<b>{{ n.0 }}</b>
+											</p>
+											<p>
+												{% if n.1 %}
+											<span class="label {% if today.year == year and today.month == month and today.day == n.0 %}label-danger{% else %}label-warning{% endif %}">
+												{{ n.1 }} appointment{% if n.1 > 1 %}s{% endif %}
+  											</span>
+											{% else %}
+													&nbsp;
+												{% endif %}
+
+											</p>
+										</div>
+									</a>
+								</td>
+							{% else %}
+								<td class="col-md-1{% if today.year == year and today.month == month and today.day == n.0 %} success{% elif day == n.0 %} active{% endif %}">
+									<div>
+										<p>&nbsp;</p>
+										<p>&nbsp;</p>
+									</div>
+								</td>
+							{% endif %}
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</table>
+		  </div>
+		</div>
+		<div class="col-md-2 well">
+			<span class="h1"><span class="h3">Appointments</span></span>
+		  <div class="panel">
+			<table class="table table-striped">
+				<tr>
+					<th>
+						{{ month }}/{{ day }}
+					</th>
+				</tr>
+				{% for i in selected %}
+					{% if i.2 != 0 %}
+						<tr>
+							<td>
+								<a href="/{{ pOd }}updatecancelappointment/{{ i.2 }}/">
+									{{ i.0 }}<br>{{ i.1 }}
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td>
+								{{ i.1 }}
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</table>
+		  </div>
+			<a href="/{{ pOd }}createappointment/" class="btn btn-primary" role="button">Create Appointment</a>
+		</div>
+	</div>
+	<ul class="pager hidden-lg visible-md">
+		<li>
+			<a href="/calendar/{{ prev.year }}/{{ prev.month }}/">
+				<span class="glyphicon glyphicon-chevron-up"></span>
+			</a>
+		</li>
+		<li>
+		  <a href="/calendar/">
+			Current
+		  </a>
+		</li>
+		<li>
+			<a href="/calendar/{{ nex.year }}/{{ nex.month }}/">
+				<span class="glyphicon glyphicon-chevron-up"></span>
+			</a>
+		</li>
+	</ul>
+</div>
+</body>
+</html>

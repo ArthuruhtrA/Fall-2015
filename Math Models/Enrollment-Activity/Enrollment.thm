@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view>
+
+<projection> <type name="Step"/> </projection>
+
+<defaultnode/>
+
+<defaultedge/>
+
+<node>
+   <type name="Int"/>
+   <type name="Step"/>
+   <type name="String"/>
+   <type name="univ"/>
+   <type name="ordering/Ord"/>
+   <type name="seq/Int"/>
+   <set name="$c0" type="Course"/>
+   <set name="$c1" type="Course"/>
+   <set name="$st" type="Step"/>
+   <set name="$st&apos;" type="Step"/>
+   <set name="First" type="ordering/Ord"/>
+   <set name="Next" type="ordering/Ord"/>
+</node>
+
+<node hideunconnected="yes">
+   <type name="Course"/>
+</node>
+
+<node hideunconnected="yes" color="Green">
+   <type name="Person"/>
+</node>
+
+<edge visible="no" attribute="yes">
+   <relation name="limit"> <type name="Course"/> <type name="Int"/> </relation>
+   <relation name="transcript"> <type name="Person"/> <type name="Course"/> </relation>
+</edge>
+
+</view>
+
+</alloy>

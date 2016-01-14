@@ -1,0 +1,32 @@
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from ..models import *
+
+# Genreate List of Patients.
+def index(request):
+    user = request.user
+
+    #Redirect if not logged in and find whether doctor or nurse
+    if 'auth.doctor' in user.get_all_permissions():
+        role = "doctor"
+        userobj = Doctor.objects.get(userNameField=user.username)
+    elif 'auth.nurse' in user.get_all_permissions():
+        role = "nurse"
+        userobj = Nurse.objects.get(userNameField=user.username)
+    else:
+        return HttpResponseRedirect("/notauthorized")
+
+    #Get the list of all patients
+    patientList = Patient.objects.order_by("firstName")
+    patients = []
+    #Make a list of tuples that contain the patient and the URL to link to the patient
+    for patient in patientList:
+        if role == "nurse":
+            if patient.hospital != userobj.hospital:
+                continue
+        patientURL = "/viewpatient/" + str(patient.id)
+        patients += [(patient, patientURL)]
+
+    #Create context and return the webpage
+    context = {"pOd": role, 'name': user.first_name + " " + user.last_name, "messagenum": get_number_of_unread(user),'patients' : patients}
+    return render(request, 'patients/listOfPatients.html', context)

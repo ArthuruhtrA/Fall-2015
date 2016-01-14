@@ -1,0 +1,11 @@
+from django.conf.urls import url
+
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url(r'^calendar/', views.PatientDoctorCalendar, name='PatientDoctorCalendar'),
+    url(r'^logout/', views.PatientDoctorNurseLogout, name='PatientDoctorNurseLogout'),
+    url(r'^login/$', views.PatientDoctorNurseLogin, name='PatientDoctorNurseLogin'),
+    url(r'^patientregistration/$', views.PatientRegister, name='PatientRegister'),
+]

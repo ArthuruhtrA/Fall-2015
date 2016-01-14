@@ -1,0 +1,50 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'healthcare.settings')
+
+import django
+django.setup()
+
+from patients.models import Hospital, Patient
+from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
+
+def populate():
+    hosp = Hospital(name = 'Roch')
+    hosp.save()
+
+    user_content = ContentType.objects.get_for_model(User)
+    patientPerm = Permission.objects.create(codename='is_patient',\
+                                            name='Is Patient',\
+                                            content_type=user_content)
+    
+    #if not isinstance(patientPerm, tuple):
+    patientPerm.save()
+        
+    
+    u1 = User.objects.create_user(username='asanders',\
+                                  email='asanders@rit.edu',\
+                                  password = 'pass')
+    #u1.first_name = 'Ari'
+    #u1.last_name = 'Sanders'
+    u1.user_permissions.add(patientPerm)
+    u1.save()
+##    p1 = Patient(firstName= 'Ari',\
+##                 lastName= 'Sanders', \
+##                 hospital=hosp, \
+##                 userNameField='asanders', \
+##                 email='asanders@rit.edu', \
+##                 city='Rochester', \
+##                 state='New York', \
+##                 address1='007 bond rd.', \
+##                 phone='(888) 888-8888', \
+##                 insuranceID= '001', \
+##                 insuranceName='Supercare', \
+##                 emergencyContactEmail='sburtner@rit.edu', \
+##                 emergencyContactFirstName='Stuart', \
+##                 emergencyContactLastName='Burtner', \
+##                 emergencyContactPhone='(555) 555-5555', \
+##                 medicalInformation='nothing')
+##    p1.save()
+
+populate()
+input("Press enter to continue")

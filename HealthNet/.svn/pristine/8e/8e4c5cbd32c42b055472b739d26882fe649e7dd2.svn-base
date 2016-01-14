@@ -1,0 +1,112 @@
+<html>
+<head>
+    <title>Update Appointment</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/UpdateAppointment.css' %}" />
+
+</head>
+
+<body>
+<div>
+<h2>Appointment Details</h2>
+<p>{{ errortext }}</p>
+
+
+
+{% block content %}
+
+
+  <form action="" method="post">
+      {% csrf_token %}
+
+		<p>
+			<label for="Month">Month:</label>
+			<select name="month" id="Month">
+				<option>January</option>
+				<option>February</option>
+				<option>March</option>
+				<option>April</option>
+				<option>May</option>
+				<option>June</option>
+				<option>July</option>
+				<option>August</option>
+				<option>September</option>
+				<option>October</option>
+				<option>November</option>
+				<option>December</option>
+			</select>
+		</p>
+
+		<p>
+			<label for="Day">Day (DD):</label>
+			<input type="text" name="day" value="" id="Day">
+		</p>
+
+	  	<p>
+			<label for="Year">Year:</label>
+			<select name="year" id="Year">
+				<option>2015</option>
+				<option>2016</option>
+				<option>2017</option>
+				<option>2018</option>
+				<option>2019</option>
+			</select>
+		</p>
+
+	  	<p>
+			<label for="Time">Time:</label>
+			<select name="time" id="Time">
+				<option>00:00</option>
+				<option>01:00</option>
+				<option>02:00</option>
+				<option>03:00</option>
+				<option>04:00</option>
+				<option>05:00</option>
+				<option>06:00</option>
+				<option>07:00</option>
+				<option>08:00</option>
+				<option>09:00</option>
+				<option>10:00</option>
+				<option>11:00</option>
+				<option>12:00</option>
+				<option>13:00</option>
+				<option>14:00</option>
+				<option>15:00</option>
+				<option>16:00</option>
+				<option>17:00</option>
+				<option>18:00</option>
+				<option>19:00</option>
+				<option>20:00</option>
+				<option>21:00</option>
+				<option>22:00</option>
+				<option>23:00</option>
+			</select>
+		</p>
+
+	  	<p>
+			<label for="Patient">Patient:</label>
+			<select name="patient" id="Patient">
+                {% for patient in patients %}
+                    <option>{{ patient }}</option>
+                {% endfor %}
+			</select>
+		</p>
+
+        <input type="submit" value="Change Appointment" />
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+  </form>
+
+{% endblock %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/" ><input type="submit" value="Cancel" /></a>
+<a href={{ cancellink }} ><input type="submit" value="Cancel Appointment" /></a>
+
+</div>
+</body>
+
+
+</html>

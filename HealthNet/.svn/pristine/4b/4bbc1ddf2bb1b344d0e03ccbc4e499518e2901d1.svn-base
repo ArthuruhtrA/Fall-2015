@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Administrator</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/administration">
+			<span class="glyphicon glyphicon-home"></span>
+			Home
+		</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-plus"></span>
+			Create Account<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/createdoctor">Create Doctor</a></li>
+            <li><a href="/createnurse">Create Nurse</a></li>
+          </ul>
+        </li>
+		<li><a href="/viewlogs">
+			<span class="glyphicon glyphicon-eye-open"></span>
+			View Logs
+		</a></li>
+		<li class="active"><a href="/messageboard">
+			<span class="glyphicon glyphicon-bullhorn"></span>
+			Message Board
+		</a></li>
+		<li><a href="/admin">
+			<span class="glyphicon glyphicon-cog"></span>
+			Advanced Settings
+		</a></li>
+      </ul>
+    </div>
+    <div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/adminviewadmindetails">View Profile</a></li>
+            <li><a href="/admineditadmindetails">Edit Profile</a></li>
+          </ul>
+        </li>
+			<li>
+				<a href="/logout">
+					<span class="glyphicon glyphicon-log-out"></span>
+					Logout
+				</a>
+			</li>
+		</ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="well col-md-offset-1 col-md-10">
+
+	{% block prescribes %}
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+				<h2>Sitewide Messages</h2>
+				<div class="form-group">
+					<label class="control-label col-md-1" for="message">Message:</label>
+					<div class="col-md-3">
+						<input type="text" name="message" value="" id="message" class="form-control">
+					</div>
+					<input type="submit" class="btn btn-primary" value="Submit">
+					<input type="hidden" name="next" value="{{ next|escape }}">
+				</div>
+
+			</form>
+		{% endblock %}
+	</div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+	<div class="well col-md-offset-1 col-md-10">
+		<span class="col-md-11 h2">Messages</span>
+	<br>
+	<div class="panel">
+	<table class="table table-hover">
+		<tr>
+			<th class="col-md-3">Date</th>
+			<th class="col-md-7">Message</th>
+		</tr>
+		{% for message in messages %}
+        <tr>
+			<td>
+				{{ message.0 }}
+			</td>
+			<td>
+				{{ message.1 }}
+			</td>
+		</tr>
+    {% endfor %}
+	</table>
+	</div>
+</div>
+</div>
+</body>
+
+
+</html>

@@ -1,0 +1,84 @@
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import auth
+from ..models import *
+from datetime import datetime
+
+# Edit Details for Patient
+def index(request):
+    user = request.user
+
+    if not 'auth.patient' in user.get_all_permissions()  or 'auth.nurse' in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+
+    #Get the patient from the database
+    patient = Patient.objects.get(userNameField=user.username)
+    context = {'messagenum': get_number_of_unread(user),
+               'patient': patient,
+               'states': states,
+               'hospitals' : Hospital.objects.order_by("name")}
+
+    if request.method == "POST":
+        #Add message to context in case there are errors with the form
+        context['errortext'] = "Missing Required Field"
+
+        #Get all values from the POST
+        firstName = request.POST.get('firstname', '')
+        lastName = request.POST.get('lastname', '')
+        email = request.POST.get('email', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        address1 = request.POST.get('address1', '')
+        phone = request.POST.get('phone', '')
+        insuranceName = request.POST.get('insurancename', '')
+        insuranceID = request.POST.get('insuranceid', '')
+        hospital = request.POST.get('hospital', '')
+        emergencyContactFirstName = request.POST.get('emergencycontactfirstname', '')
+        emergencyContactLastName = request.POST.get('emergencycontactlastname', '')
+        emergencyContactPhone = request.POST.get('emergencycontactphone', '')
+        emergencyContactEmail = request.POST.get('emergencycontactemail', '')
+        password = request.POST.get('password', '')
+
+        #Validate fields
+        if firstName == '' or lastName == '' or email == '' or not validateEmail(email) or city == '' or state == '' or address1 == '' or phone == '' or \
+            insuranceName == '' or insuranceID == '' or hospital == '' or emergencyContactFirstName == '' \
+                or emergencyContactLastName == '' or emergencyContactPhone == '' \
+                or emergencyContactEmail == ''\
+                or not validateEmail(emergencyContactEmail )\
+                or medicalInformation == '':
+            return render(request, 'patients/patientEditPatientDetails.html', context)
+
+        #Set new values of patient and user
+        patient.firstName = firstName
+        patient.lastName = lastName
+        patient.email = email
+        patient.city = city
+        patient.state = state
+        patient.address1 = address1
+        patient.phone = phone
+        patient.insuranceName = insuranceName
+        patient.insuranceID = insuranceID
+        patient.hospital = Hospital.objects.get(name=hospital)
+        patient.emergencyContactFirstName = emergencyContactFirstName
+        patient.emergencyContactLastName = emergencyContactLastName
+        patient.emergencyContactPhone = emergencyContactPhone
+        patient.emergencyContactEmail = emergencyContactEmail
+
+        user.firstName = firstName
+        user.lastName = lastName
+        user.set_password(password)
+
+        patient.save()
+        user.save()
+
+        user = auth.authenticate(username=user.username, password=password)
+        auth.login(request, user)
+
+        #Add notice to log
+        log_add("Patient " + str(patient) + " edited details.")
+
+        return HttpResponseRedirect("/patientviewpatientdetails")
+
+    else :
+        #Using previous context, load the page
+        return render(request, 'patients/patientEditPatientDetails.html', context)

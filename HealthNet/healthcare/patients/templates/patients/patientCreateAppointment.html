@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Appointment Details</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Patient</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		<li class="active"><a href="/patientcreateappointment">
+			<span class="glyphicon glyphicon-pencil"></span>
+			Create Appointment
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/patientviewpatientdetails">View Profile</a></li>
+            <li><a href="/patienteditpatientdetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container-fluid">
+	{% if errortext %}
+		<div class="alert alert-warning">{{ errortext }}</div>
+	{% endif %}
+
+
+
+{% block content %}
+
+<div class="well col-md-offset-3 col-md-6">
+	<h2>Appointment Details</h2>
+	<form action="" method="post" role="form" class="form-horizontal">
+      {% csrf_token %}
+
+	  <div class="form-group">
+		<label class="control-label col-md-3" for="Month">Month:</label>
+		<div class="col-md-4">
+			<select name="month" id="Month" class="form-control">
+				<option value=1>January</option>
+				<option value=2>February</option>
+				<option value=3>March</option>
+				<option value=4>April</option>
+				<option value=5>May</option>
+				<option value=6>June</option>
+				<option value=7>July</option>
+				<option value=8>August</option>
+				<option value=9>September</option>
+				<option value=10>October</option>
+				<option value=11>November</option>
+				<option value=12>December</option>
+			</select>
+			<script>
+				var d = new Date();
+				var n = d.getMonth()+1;
+				$("#Month").val(n);
+			</script>
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<label class="control-label col-md-3" for="Day">Day (DD):</label>
+		<div class="col-md-4">
+			<input type="text" name="day" value={{today.day}} id="Day" class="form-control">
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<label class="control-label col-md-3" for="Year">Year:</label>
+		<div class="col-md-4">
+			<select name="year" id="Year" class="form-control">
+				<option>2015</option>
+				<option>2016</option>
+				<option>2017</option>
+				<option>2018</option>
+				<option>2019</option>
+			</select>
+		</div>
+	  </div>
+			
+	  <div class="form-group">
+		<label class="control-label col-md-3" for="Time">Time:</label>
+		<div class="col-md-4">
+			<select name="time" id="Time" class="form-control">
+				{% for time in times %}
+				<option {% if today.hour == forloop.counter0 %} selected = "selected" {% endif %}> {{time}} </option>
+				{% endfor %}
+			</select>
+		</div>
+	  </div>
+			
+	  <div class="form-group">
+		<label class="control-label col-md-3" for="Doctor">Doctor:</label>
+		<div class="col-md-4">
+			<select name="doctor" id="Doctor" class="form-control">
+                {% for doctor in doctors %}
+                    <option value={{doctor.id}} >{{ doctor }}</option>
+                {% endfor %}
+			</select>
+		</div>
+	  </div>
+
+        <input type="submit" class="btn btn-primary col-md-offset-2" value="Create Appointment" />
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+		<a href="/calendar" class="btn btn-default">Cancel</a>
+  </form>
+
+{% endblock %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+</div>
+</div>
+
+</body>
+
+
+</html>

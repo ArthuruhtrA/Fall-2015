@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare View Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+<div class="container-fluid">
+    <div class="navbar-header">
+		<a href="/" class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Patient</a>
+	</div>
+    <div>
+		<ul class="nav navbar-nav">
+			<li><a href="/calendar">
+				<span class="glyphicon glyphicon-calendar"></span>
+				Calendar
+			</a></li>
+			<li class="active"><a href="/patientviewpatientdetails">
+				<span class="glyphicon glyphicon-eye-open"></span>
+				View Patient Details
+			</a></li>
+			<li><a href="/patienteditpatientdetails">
+				<span class="glyphicon glyphicon-edit"></span>
+				Edit Patient Details
+			</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ firstName }} {{ lastName }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/patientviewpatientdetails">View Profile</a></li>
+            <li><a href="/patienteditpatientdetails">Edit Profile</a></li>
+          </ul>
+        </li>
+			<li>
+				<a href="/logout">
+					<span class="glyphicon glyphicon-log-out"></span>
+					Logout
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+</nav>
+
+<div class="container-fluid">
+<div class="well col-md-offset-1 col-md-10">
+  <div class="panel-group col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse1">Personal Information</a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse in">
+	  <ul class="list-group">
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">Name:</label>
+		  {{ firstName }} {{ lastName }}
+		</li>
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">Email:</label>
+		  {{ email }}
+		</li>
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">Phone:</label>
+		  {{ phone }}
+		</li>
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">Address:</label>
+		  {{ address1 }}<br>{{ city }}, {{ state }}
+		</li>
+		<ul class="list-group-item">
+		  <label class="control-label">Emergency Contact</label>
+		  <li class="list-group-item">
+			<label class="control-label col-md-3">Name:</label>
+			{{ emergencyContactFirstName }} {{ emergencyContactLastName }}
+		  </li>
+		  <li class="list-group-item">
+			<label class="control-label col-md-3">Email:</label>
+			{{ emergencyContactEmail }}
+		  </li>
+		  <li class="list-group-item">
+			<label class="control-label col-md-3">Phone:</label>
+			{{ emergencyContactPhone }}
+		  </li>
+		</ul>
+	  </ul>
+	</div>
+  </div>
+  </div>
+  <div class="panel-group col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse2">Medical Information</a>
+      </h4>
+    </div>
+	<div id="collapse2" class="panel-collapse collapse in">
+	  <ul class="list-group">
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">Insurance:</label>
+		  {{ insuranceName }}
+		</li>
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">ID:</label>
+		  {{ insuranceID }}
+		</li>
+		<li class="list-group-item">
+		  <label class="control-label col-md-3">Hospital:</label>
+		  {{ hospital }}
+		</li>
+		<!-- <ul class="list-group-item">
+		  <label class="control-label">Prescriptions</label>
+		  {% for prescription in prescriptions %}
+		  	<li class="list-group-item">{{ prescription }}</li>
+		  {% endfor %}
+		</ul> -->
+		<li class="list-group-item">
+		  <span class="panel">
+		  <label class="control-label">Prescriptions</label>
+		  <table class="table table-hover">
+			<tr><th>Date</th><th>Drug</th><th>Reason</th><th>Doctor</th></tr>
+			{% for prescription in prescriptions %}
+			  <tr>
+				<td>{{ prescription.dateTime.day }}/{{ prescription.dateTime.month }}/{{ prescription.dateTime.year }}</td>
+				<td>{{ prescription.name }}</td>
+				<td>{{ prescription.reason }}</td>
+				<td>{{ prescription.doctor }}</td>
+			  </tr>
+			{% endfor %}
+		  </table>
+		  </span>
+		</li>
+		  <li class="list-group-item">
+		  <span class="panel">
+		  <label class="control-label">Tests</label>
+		  <table class="table table-hover">
+			<tr><th>Date</th><th>Name</th><th>Details</th><th>Doctor</th></tr>
+			{% for test in tests %}
+			  <tr>
+				<td>{{ test.dateTime.day }}/{{ test.dateTime.month }}/{{ test.dateTime.year }}</td>
+				<td>{{ test.name }}</td>
+				<td>{{ test.details }}</td>
+				<td>{{ test.doctor }}</td>
+			  </tr>
+			{% endfor %}
+		  </table>
+		  </span>
+		</li>
+	  </ul>
+	</div>
+  </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <a href="/patienteditpatientdetails" class="btn btn-primary">Edit Info</a>
+    <a href="/calendar" class="btn btn-default">Home</a>
+    <a href="/patientexportinfo" target="_blank" class="btn btn-default">Export</a>
+  </div>
+</div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,479 @@
+
+
+
+ARM Macro Assembler    Page 1 CMPE 250 Exercise Two
+
+
+    1 00000000                 TTL              CMPE 250 Exercise Two
+    2 00000000         ;*******************************************************
+                       *********
+    3 00000000         ;Descriptive comment header goes here.
+    4 00000000         ;(What does the program do?)
+    5 00000000         ;Name:  Ari Sanders
+    6 00000000         ;Date:  9/3/2015
+    7 00000000         ;Class:  CMPE-250
+    8 00000000         ;Section:  04, Thursday 16-17:50
+    9 00000000         ;-------------------------------------------------------
+                       --------
+   10 00000000         ;Keil Simulator Template for KL46
+   11 00000000         ;R. W. Melton
+   12 00000000         ;January 23, 2015
+   13 00000000         ;*******************************************************
+                       *********
+   14 00000000         ;Assembler directives
+   15 00000000                 THUMB
+   17 00000000         ;*******************************************************
+                       *********
+   18 00000000         ;EQUates
+   19 00000000         ;Vectors
+   20 00000000 000000C0 
+                       VECTOR_TABLE_SIZE
+                               EQU              0x000000C0
+   21 00000000 00000004 
+                       VECTOR_SIZE
+                               EQU              4           ;Bytes per vector
+   22 00000000         ;Stack
+   23 00000000 00000100 
+                       SSTACK_SIZE
+                               EQU              0x00000100
+   24 00000000 00000002 
+                       DIV4    EQU              2
+   25 00000000 00000003 
+                       MULT8   EQU              3
+   26 00000000         ;*******************************************************
+                       *********
+   27 00000000         ;Program
+   28 00000000         ;Linker requires Reset_Handler
+   29 00000000                 AREA             MyCode,CODE,READONLY
+   30 00000000                 ENTRY
+   31 00000000                 EXPORT           Reset_Handler
+   32 00000000         Reset_Handler
+   33 00000000         main
+   34 00000000         ;-------------------------------------------------------
+                       --------
+   35 00000000         ;>>>>> begin main program code <<<<<
+   36 00000000 2005            MOVS             R0, #5
+   37 00000002 4240            RSBS             R0, R0, #0
+   38 00000004 213E            MOVS             R1, #62
+   39 00000006 1840            ADDS             R0, R0, R1
+   40 00000008 2109            MOVS             R1, #9
+   41 0000000A 0889            LSRS             R1, #DIV4
+   42 0000000C 1A40            SUBS             R0, R0, R1
+   43 0000000E 2107            MOVS             R1, #7
+   44 00000010 00CA            LSLS             R2, R1, #MULT8
+   45 00000012 1889            ADDS             R1, R1, R2
+   46 00000014 1A40            SUBS             R0, R0, R1
+
+
+
+ARM Macro Assembler    Page 2 CMPE 250 Exercise Two
+
+
+   47 00000016 213A            MOVS             R1, #58
+   48 00000018 1840            ADDS             R0, R0, R1
+   49 0000001A 2111            MOVS             R1, #17
+   50 0000001C 1840            ADDS             R0, R0, R1
+   51 0000001E         ;>>>>>   end main program code <<<<<
+   52 0000001E         ;Stay here
+   53 0000001E E7FE            B                .
+   54 00000020         ;-------------------------------------------------------
+                       --------
+   55 00000020         ;>>>>> begin subroutine code <<<<<
+   56 00000020         ;>>>>>   end subroutine code <<<<<
+   57 00000020                 ALIGN
+   58 00000020         ;*******************************************************
+                       *********
+   59 00000020         ;Vector Table Mapped to Address 0 at Reset
+   60 00000020         ;Linker requires __Vectors to be exported
+   61 00000020                 AREA             RESET, DATA, READONLY
+   62 00000000                 EXPORT           __Vectors
+   63 00000000                 EXPORT           __Vectors_End
+   64 00000000                 EXPORT           __Vectors_Size
+   65 00000000         __Vectors
+   66 00000000         ;ARM core vectors
+   67 00000000 00000000        DCD              __initial_sp ;00:end of stack
+   68 00000004 00000000        DCD              Reset_Handler ;reset vector
+   69 00000008 00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+
+
+
+ARM Macro Assembler    Page 3 CMPE 250 Exercise Two
+
+
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00               SPACE            (VECTOR_TABLE_SIZE - (2 * VECTO
+R_SIZE))
+   70 000000C0         __Vectors_End
+   71 000000C0 000000C0 
+                       __Vectors_Size
+                               EQU              __Vectors_End - __Vectors
+   72 000000C0                 ALIGN
+   73 000000C0         ;*******************************************************
+                       *********
+   74 000000C0         ;Constants
+   75 000000C0                 AREA             MyConst,DATA,READONLY
+   76 00000000         ;>>>>> begin constants here <<<<<   
+   77 00000000         ;>>>>>   end constants here <<<<<
+   78 00000000         ;*******************************************************
+                       *********
+   79 00000000                 AREA             |.ARM.__at_0x1FFFE000|,DATA,REA
+DWRITE,ALIGN=3
+   80 00000000                 EXPORT           __initial_sp
+   81 00000000         ;Allocate system stack
+   82 00000000                 IF               :LNOT::DEF:SSTACK_SIZE
+   84                          ENDIF
+   85 00000000 00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+
+
+
+ARM Macro Assembler    Page 4 CMPE 250 Exercise Two
+
+
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+
+
+
+ARM Macro Assembler    Page 5 CMPE 250 Exercise Two
+
+
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00       Stack_Mem
+                               SPACE            SSTACK_SIZE
+   86 00000100         __initial_sp
+   87 00000100         ;*******************************************************
+                       *********
+   88 00000100         ;Variables
+   89 00000100                 AREA             MyData,DATA,READWRITE
+   90 00000000         ;>>>>> begin variables here <<<<<
+   91 00000000         ;>>>>>   end variables here <<<<<
+   92 00000000                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0+ --apcs=inter
+work --depend=.\objects\lab02.d -o.\objects\lab02.o -I"C:\Users\sande_000\Docum
+ents\RIT\Fall 2015\CMPE-250\Lab02\RTE" -IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_
+DFP\1.7.0\Device\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SET
+A 1" --predefine="__UVISION_VERSION SETA 516" --predefine="MKL46Z256xxx4 SETA 1
+" --list=.\listings\lab02.lst lab02.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MyCode 00000000
+
+Symbol: MyCode
+   Definitions
+      At line 29 in file lab02.s
+   Uses
+      None
+Comment: MyCode unused
+Reset_Handler 00000000
+
+Symbol: Reset_Handler
+   Definitions
+      At line 32 in file lab02.s
+   Uses
+      At line 31 in file lab02.s
+      At line 68 in file lab02.s
+
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 33 in file lab02.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+RESET 00000000
+
+Symbol: RESET
+   Definitions
+      At line 61 in file lab02.s
+   Uses
+      None
+Comment: RESET unused
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 65 in file lab02.s
+   Uses
+      At line 62 in file lab02.s
+      At line 71 in file lab02.s
+
+__Vectors_End 000000C0
+
+Symbol: __Vectors_End
+   Definitions
+      At line 70 in file lab02.s
+   Uses
+      At line 63 in file lab02.s
+      At line 71 in file lab02.s
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MyConst 00000000
+
+Symbol: MyConst
+   Definitions
+      At line 75 in file lab02.s
+   Uses
+      None
+Comment: MyConst unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.ARM.__at_0x1FFFE000 00000000
+
+Symbol: .ARM.__at_0x1FFFE000
+   Definitions
+      At line 79 in file lab02.s
+   Uses
+      None
+Comment: .ARM.__at_0x1FFFE000 unused
+Stack_Mem 00000000
+
+Symbol: Stack_Mem
+   Definitions
+      At line 85 in file lab02.s
+   Uses
+      None
+Comment: Stack_Mem unused
+__initial_sp 00000100
+
+Symbol: __initial_sp
+   Definitions
+      At line 86 in file lab02.s
+   Uses
+      At line 67 in file lab02.s
+      At line 80 in file lab02.s
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MyData 00000000
+
+Symbol: MyData
+   Definitions
+      At line 89 in file lab02.s
+   Uses
+      None
+Comment: MyData unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+DIV4 00000002
+
+Symbol: DIV4
+   Definitions
+      At line 24 in file lab02.s
+   Uses
+      At line 41 in file lab02.s
+Comment: DIV4 used once
+MULT8 00000003
+
+Symbol: MULT8
+   Definitions
+      At line 25 in file lab02.s
+   Uses
+      At line 44 in file lab02.s
+Comment: MULT8 used once
+SSTACK_SIZE 00000100
+
+Symbol: SSTACK_SIZE
+   Definitions
+      At line 23 in file lab02.s
+   Uses
+      At line 85 in file lab02.s
+Comment: SSTACK_SIZE used once
+VECTOR_SIZE 00000004
+
+Symbol: VECTOR_SIZE
+   Definitions
+      At line 21 in file lab02.s
+   Uses
+      At line 69 in file lab02.s
+Comment: VECTOR_SIZE used once
+VECTOR_TABLE_SIZE 000000C0
+
+Symbol: VECTOR_TABLE_SIZE
+   Definitions
+      At line 20 in file lab02.s
+   Uses
+      At line 69 in file lab02.s
+Comment: VECTOR_TABLE_SIZE used once
+__Vectors_Size 000000C0
+
+Symbol: __Vectors_Size
+   Definitions
+      At line 71 in file lab02.s
+   Uses
+      At line 64 in file lab02.s
+Comment: __Vectors_Size used once
+6 symbols
+350 symbols in table

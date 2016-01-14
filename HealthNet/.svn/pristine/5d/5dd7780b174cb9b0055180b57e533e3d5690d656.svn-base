@@ -1,0 +1,16 @@
+#Copyright 2015 StackOverflowGooglers
+
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+# Create your views here.
+
+def index(request):
+    testString = "Hello world from HomePage.py"
+    context = {'testString': testString}
+    return render(request, 'patients/index.html', context)
+
+
+#Copyright 2015 StackOverflowGooglers

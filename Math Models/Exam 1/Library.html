@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title>Library Model</title></head>
+<body>
+    <h2>SWEN-220 Alloy Exam #1</h2><h2>Library Model</h2>
+    <h3>Instructions</h3>
+    <p>Your instructor will tell you how to download the files needed for this
+      assignment / activity / exam.</p>
+    <p>You are to model a simple library using the predefined signatures and
+      relations in file Library.als; a theme that makes visualization a bit
+      easier is in Library.thm.</p>
+    <p>The signatures, relations are documented, as are the facts you are to complete. If you have any questions about
+      interpreting what is required, ask your instructor.</p>
+    <p>You are <strong style="color: rgb(204, 0, 0);">NOT</strong> to:</p>
+    <ul>
+      <li>Add or modify any signatures or relations (fields),</li>
+      <li>Add
+any of your own facts. (You may optionally use predicates and/or
+assertions in developing your model, but remove them &nbsp;before
+submitting your final solution.)</li>
+      
+    </ul>
+    <h3>Brief Model Description</h3>
+    <p>The signatures in the model are:</p>
+    <ul>
+      <li><strong style="font-family: Helvetica,Arial,sans-serif;">Book </strong>-
+        a book kept in the library.</li>
+      <li><strong style="font-family: Helvetica,Arial,sans-serif;">Patron </strong>-
+        a library patron who can have books on loan while indicating others he
+        or she wants.</li>
+      <li>The one and only <strong style="font-family: Helvetica,Arial,sans-serif;">Library</strong>,
+        which tracks books on the shelves of the library itself, and possibly
+        some books on reserve.</li>
+    </ul>
+    <p>The facts are designed to ensure a consistent state, which means (among
+      other things):</p>
+    <ul>
+      <li>Books on reserve are always on the shelves (reserved books cannot be
+        loaned).</li>
+      <li>All books are either on the shelves or on loan to a patron, and no
+        book can be both shelved and on loan.</li>
+      <li>No two patrons can have the same book loaned to them.</li>
+      <li>If a patron wants a book, it must be on loan (otherwise it could be
+        loaned to the patron that wants it).</li>
+      <li>No patron both have and want the same book(s).</li>
+    </ul><h3>Grading</h3><ul><li>Each fact is worth 5 points.&nbsp;</li><li>Partial credit will be considered. Use comments to describe the expression you are trying to write.</li><li><span style="font-weight: bold; color: red;">Make sure that your model is free of syntax errors</span>. Comment out those facts generating errors so that valid ones can execute.</li><li>Submit your solution to the Alloy Exam #1 dropbox in myCourses. Multiple solutions encouraged, last one graded.</li></ul>
+  </body></html>

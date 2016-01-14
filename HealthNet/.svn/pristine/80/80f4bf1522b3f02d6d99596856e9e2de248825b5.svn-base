@@ -1,0 +1,67 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import Doctor
+from ..models import Appointment
+from ..models import Patient
+from datetime import datetime
+from ..models import log_add
+
+# Create your views here.
+def index(request, text):
+    user = request.user
+    testString = 'auth.doctor' in user.get_all_permissions()
+
+    if not testString:
+        return HttpResponseRedirect("/notauthorized")
+    if request.method == "POST":
+        month = request.POST.get('month', '')
+        day = request.POST.get('day', '')
+        year = request.POST.get('year', '')
+        patient = request.POST.get('patient', '')
+        time = request.POST.get('time', '')
+        if month == '' or day == '' or year == '' or patient == '' or time == '':
+            return render(request, 'patients/doctorUpdateCancelAppointment.html',
+                          {"errortext" : "Missing Required Field", "patients" : Patient.objects.order_by("firstName"),
+                                                                                "cancellink" : "/doctordeleteappointment/" + text})
+
+
+        doctor=Doctor.objects.get(userNameField=user.username)
+        patient = Patient.objects.get(lastName=patient.split()[1])
+
+
+
+
+
+        appointment = Appointment.objects.get(id=text)
+
+        appointment.patient = patient
+        appointment.dateTime = datetime.strptime(month + ' ' + day +  ' ' + year + ' ' + time + "00", '%B %d %Y %H:%M%S')
+
+
+
+
+        appointment.save()
+
+        log_add("Doctor " + str(doctor) + " edited an appointment.")
+
+        return HttpResponseRedirect("/calendar")
+
+    else :
+
+
+        return render(request, 'patients/doctorUpdateCancelAppointment.html', { "patients" : Patient.objects.order_by("firstName"),
+                                                                                "cancellink" : "/doctordeleteappointment/" + text})
+
+
+
+def cancelAppointment(request, text):
+    appointment = Appointment.objects.get(id=text)
+    appointment.delete()
+
+    doctor=Doctor.objects.get(userNameField=request.user.username)
+    log_add("Doctor " + str(doctor) + " cancelled an appointment.")
+
+    return HttpResponseRedirect("/calendar")

@@ -1,0 +1,39 @@
+R1
+First features to be implemented
+Home Page
+Patient Login
+Patient registration
+Doctor Login
+Nurse Login
+Admin Login
+Admin Create Admin
+Admin Create Doctor
+Admin Create Nurse
+Patient Create Appointment
+Doctor Create Appointment
+
+Dependant on previous features
+Patient Edit Patient Details
+Patient View Patient Details
+Patient Update Appointment
+Doctor Update Appointment
+Nurse Update Appointment
+Admin View Log
+
+
+R2
+Admin View Stats
+Doctor/Nurse Edit Patient Med Info
+Doctor/Nurse/Patient View Patient Med Info	
+Patient View Calendar
+Doctor View Calendar
+Nurse View Calendar
+Doctors/Nurse/Patient View Perscriptions
+Doctor add/remove Perscriptions
+Doctors evaltuate/release patient test results
+Patients view test results
+Doctor/Nurse admition for extended stay
+Doctor discharge patient
+Doctor/Admin patient transfer between hospitals
+Doctor upload files into patient med info
+Doctor/Nurse/Admin/Patient private message

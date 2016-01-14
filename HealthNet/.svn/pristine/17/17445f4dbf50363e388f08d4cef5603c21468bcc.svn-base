@@ -1,0 +1,45 @@
+th.weekday {
+	width: 100px;
+}
+
+#cals {
+	display: inline-block;
+}
+
+#schedule {
+	display: inline-block;
+}
+
+div.day {
+	height: 100px;
+}
+
+div.day:hover {
+	background-color: grey;
+}
+
+a div.day:active {
+	background-color: yellow;
+}
+
+body {
+	background-color: #99CCFF;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+#sched {
+	vertical-align: top;
+	width: 200px;
+}
+
+p.appts {
+	display: block;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.3em;
+}
+/* Copyright 2015 StackOverflowGooglers */

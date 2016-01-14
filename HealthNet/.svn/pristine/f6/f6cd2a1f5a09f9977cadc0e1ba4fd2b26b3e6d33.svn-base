@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Calendar</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet {{ pOd | title }}</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/{{ pOd }}view{{ pOd }}details">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			{# These don't exist for doctors. I'd like at least the view though. #}
+			<li><a href="/{{ pOd }}view{{ pOd }}details">View Profile</a></li>
+            <li><a href="/{{ pOd }}edit{{ pOd }}details">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-8 well">
+			<table class="table table-bordered">
+				<tr class="thead">
+					<th>Sunday</th>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+				</tr>
+				{% for i in grid %}
+					<tr>
+						{% for n in i %}
+							{% if n.0 %}
+								<td class="col-md-1{% if today.year == year and today.month == month and today.day == n.0 %} success{% elif day == n.0 %} active{% endif %}">
+									<a href="/calendar/{{ year }}/{{ month }}/{{ n.0 }}/">
+										<div>
+											<p>
+												<b>{{ n.0 }}</b>
+											</p>
+											<p>
+												{% if n.1 %}
+													{{ n.1 }} appointment{% if n.1 > 1 %}s{% endif %}
+												{% else %}
+													&nbsp;
+												{% endif %}
+
+											</p>
+										</div>
+									</a>
+								</td>
+							{% else %}
+								<td class="col-md-1{% if today.year == year and today.month == month and today.day == n.0 %} success{% elif day == n.0 %} active{% endif %}">
+									<div>
+										<p>&nbsp;</p>
+										<p>&nbsp;</p>
+									</div>
+								</td>
+							{% endif %}
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="col-md-2 well">
+			<table class="table table-striped">
+				<tr>
+					<th>
+						{{ month }}/{{ day }}
+					</th>
+				</tr>
+				{% for i in selected %}
+					{% if i.2 != 0 %}
+						<tr>
+							<td>
+								<a href="/{{ pOd }}updatecancelappointment/{{ i.2 }}/">
+									{{ i.0 }}<br>{{ i.1 }}
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td>
+								{{ i.1 }}
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</table>
+			<a href="/{{ pOd }}createappointment/" class="btn btn-primary" role="button">Create Appointment</a>
+		</div>
+	</div>
+	<ul class="pager">
+		<li>
+			<a href="/calendar/{{ prev.year }}/{{ prev.month }}/">
+				Previous
+			</a>
+		</li>
+		<li>
+			<a href="/calendar/{{ nex.year }}/{{ nex.month }}/">
+				Next
+			</a>
+		</li>
+	</ul>
+</div>
+</body>
+</html>

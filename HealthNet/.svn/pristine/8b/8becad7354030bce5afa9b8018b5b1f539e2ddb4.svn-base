@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>HealthNet Calendar</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+<p><br/><br/><br/>
+
+<table>
+
+    <tr>
+        {% for day in matchingDates %}
+            <td>{{day}}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for day in dayList %}
+            <td><a href={{day.1}}>{{day.0}}</a></td>
+        {% endfor %}
+    </tr>
+
+</table>
+
+<a href="/nursecalendar">Home</a>
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" >logout</a>
+
+</body>
+
+
+</html>

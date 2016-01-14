@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> {{ pOd | title }}</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+		<li class="active"><a href="#">
+			<span class="glyphicon glyphicon-eye-open"></span>
+			View {{ patientName }}
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+				<span class="glyphicon glyphicon-envelope"></span>
+				<span class="badge">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/doctorviewdoctordetails">View Profile</a></li>
+            <li><a href="/doctoreditdoctordetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	{% if not admitted %}
+	<div class="well col-md-offset-1 col-md-10">
+
+	{% block admit %}
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+				<h2>Admit {{ patientName }}</h2>
+				<div class="form-group">
+					<label class="control-label col-md-1" for="reason">Reason:</label>
+					<div class="col-md-3">
+						<input type="text" name="reason" value="" id="reason" class="form-control">
+					</div>
+					<input type="submit" class="btn btn-primary" value="Admit">
+					<input type="hidden" name="next" value="{{ next|escape }}">
+				</div>
+
+			</form>
+		{% endblock %}
+	</div>
+	{% endif %}
+	<div>
+		<a href="/prescribe/{{patientID}}">Edit prescriptions</a>
+	</div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+	<div class="well col-md-offset-1 col-md-10">
+		<span class="col-md-11 h2">{{ patientName }}'s Visits</span>
+		{% if admitted %}
+		{% block discharge %}
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+				<input type="submit" class="btn btn-primary" value="Discharge">
+				<input type="hidden" name="next" value="{{ next|escape }}">
+			</form>
+		{% endblock %}
+		{% endif %}
+	<br>
+	<div class="panel">
+	<table class="table table-hover">
+		<tr>
+			<th>Admitted</th>
+			<th>Discharged</th>
+			<th>Reason</th>
+		</tr>
+		{% for visit in visits %}
+        <tr{% if visit.1.year == 2013 %} class="active"{% endif %}>
+			<td>
+				{{ visit.0 }}
+			</td>
+			<td>
+				{% if visit.1.year == 2013 %}
+					Currently in Hospital
+				{% else %}
+					{{ visit.1 }}
+				{% endif %}
+			</td>
+			<td>
+				{{ visit.2 }}
+			</td>
+		</tr>
+    {% endfor %}
+	</table>
+	</div>
+</div>
+</div>
+</body>
+
+
+</html>

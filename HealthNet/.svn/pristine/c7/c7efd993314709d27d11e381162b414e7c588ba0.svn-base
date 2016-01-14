@@ -1,0 +1,50 @@
+body {
+    background : #99CCFF;
+}
+
+div {
+	width: 25%;
+	height: 45%;
+	border: 2px solid black;
+	border-radius: 25px;
+	margin: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #7588b9;
+	min-width: 500px;
+	min-height: 450px;
+}
+
+label {
+	display: block;
+	text-align: center;
+	line-height: 125%;
+	font-size: 1.1em;
+}
+
+input {
+	display: block;
+	margin: auto;
+}
+
+h2 {
+	text-align: center;
+	#font-family: Impact;
+}
+
+a {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
+select {
+	display: block;
+	margin: auto;
+}
+
+p {
+	line-height: 70%;
+}

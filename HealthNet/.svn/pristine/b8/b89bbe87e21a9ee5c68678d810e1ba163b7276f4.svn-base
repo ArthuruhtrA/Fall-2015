@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>Not Authorized!</title>
+
+    <!-- {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" /> -->
+	{% load bootstrap3 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery=1 %}
+	{% bootstrap_messages %}
+
+</head>
+
+<body>
+
+<h3>You are not authorized to access this page.  Logout or go back.</h3>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" >logout</a>
+
+
+</body>
+
+
+</html>

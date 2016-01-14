@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Not Authorized!</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+<h3>You are not authorized to access this page.  Logout or go back.</h3>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" >logout</a>
+
+
+</body>
+
+
+</html>

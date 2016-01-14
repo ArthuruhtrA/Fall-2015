@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>Healthcare Patient Registration</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/PatientView.css' %}" />
+
+</head>
+
+<body>
+	<table>
+		<tr>
+			<th>Personal Information</th>
+			<th>Emergency Contact</th>
+			<th>Medical Information</th>
+		<tr>
+			<td>{{ firstName }}</td>
+			<td>{{ emergencyContactFirstName }}</td>
+			<td>{{ insuranceName }}</td>
+		</tr>
+		<tr>
+			<td>{{ lastName }}</td>
+			<td>{{ emergencyContactLastName }}</td>
+			<td>{{ insuranceID }}</td>
+		</tr>	
+			
+		<tr>
+			<td>{{ email }}</td>
+			<td>{{ emergencyContactPhone }}</td>
+			<td>{{ hospital }}</td>
+		</tr>
+		<tr>
+			<td>{{ city }}</td>
+			<td>{{ emergencyContactEmail }}</td>
+			<td>{{ medicalInformation }}</td>
+		</tr>
+		
+		<tr><td>{{ state }}</td></tr>
+		
+		
+		<tr><td>{{ address1 }}</td></tr>
+		
+		
+		<tr><td>{{ phone }}</td></tr>
+		
+	</table>
+
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+<a href="/patienteditpatientdetails" ><input type="submit" value="Edit Info" /></a><a href="/calendar" ><input type="submit" value="Home" /></a>
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,17 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+
+# Create your views here.
+
+def index(request, cal_year, cal_month, cal_day):
+    user = request.user
+    #Redirect if not logged in
+    if 'auth.patient' not in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+    #Otherwise display calendar
+    grid = [[None] * 7, [None] * 7, [None] * 7, [None] * 7, [None] * 7, [None] * 7]#Initialize grid
+
+    return render(request, 'patients/calendar.html', {"grid": grid, "year": cal_year, "month": cal_month, "day": cal_day})

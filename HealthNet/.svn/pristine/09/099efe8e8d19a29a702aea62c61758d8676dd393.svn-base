@@ -1,0 +1,31 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+
+from django.contrib.auth.models import User
+
+# Create your views here.
+
+def index(request):
+
+    user = request.user
+    #Redirect if not logged in
+    if user.is_anonymous():
+        return HttpResponseRedirect("/notauthorized")
+
+
+    userList = User.objects.order_by("first_name")
+
+    users = []
+
+
+    for user in userList:
+        userURL = "/messaging/" + str(user.username)
+        users += [(user.first_name + " " + user.last_name, userURL)]
+
+
+
+    context = {'people': users}
+    return render(request, 'patients/messageHome.html', context)

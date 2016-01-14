@@ -1,0 +1,140 @@
+#IF YOU ARE NOT ARI YOU SHOULD NOT TOUCH THIS FILE!
+#Copyright StackOverflowGooglers 2015
+
+from django.db import models
+import uuid
+"""
+#Generate choice tuples (is there a way to do this natively?)
+def getHospitals():
+    hospitals = tuple()
+    for hospital in models.Hospital:
+        hospitals.__add__(hospital.id, hospital.name)
+    return hospitals
+
+def getDoctors():
+    doctors = tuple()
+    for doctor in models.Doctor:
+        doctors.__add__(doctor.id, doctor.firstName + " " + doctor.lastName)
+    return doctors
+
+def getPatients():
+    patients = tuple()
+    for patient in models.Patient:
+        patients.__add__(patient.id, patient.name)
+    return patients
+"""
+
+states = (
+        ('AK', 'Alaska'),
+        ('AL', 'Alabama'),
+        ('AR', 'Arkansas'),
+        ('AS', 'American Samoa'),
+        ('AZ', 'Arizona'),
+        ('CA', 'California'),
+        ('CO', 'Colorado'),
+        ('CT', 'Connecticut'),
+        ('DC', 'District of Columbia'),
+        ('DE', 'Delaware'),
+        ('FL', 'Florida'),
+        ('GA', 'Georgia'),
+        ('GU', 'Guam'),
+        ('HI', 'Hawaii'),
+        ('IA', 'Iowa'),
+        ('ID', 'Idaho'),
+        ('IL', 'Illinois'),
+        ('IN', 'Indiana'),
+        ('KS', 'Kansas'),
+        ('KY', 'Kentucky'),
+        ('LA', 'Louisiana'),
+        ('MA', 'Massachusetts'),
+        ('MD', 'Maryland'),
+        ('ME', 'Maine'),
+        ('MI', 'Michigan'),
+        ('MN', 'Minnesota'),
+        ('MO', 'Missouri'),
+        ('MP', 'Northern Mariana Islands'),
+        ('MS', 'Mississippi'),
+        ('MT', 'Montana'),
+        ('NA', 'National'),
+        ('NC', 'North Carolina'),
+        ('ND', 'North Dakota'),
+        ('NE', 'Nebraska'),
+        ('NH', 'New Hampshire'),
+        ('NJ', 'New Jersey'),
+        ('NM', 'New Mexico'),
+        ('NV', 'Nevada'),
+        ('NY', 'New York'),
+        ('OH', 'Ohio'),
+        ('OK', 'Oklahoma'),
+        ('OR', 'Oregon'),
+        ('PA', 'Pennsylvania'),
+        ('PR', 'Puerto Rico'),
+        ('RI', 'Rhode Island'),
+        ('SC', 'South Carolina'),
+        ('SD', 'South Dakota'),
+        ('TN', 'Tennessee'),
+        ('TX', 'Texas'),
+        ('UT', 'Utah'),
+        ('VA', 'Virginia'),
+        ('VI', 'Virgin Islands'),
+        ('VT', 'Vermont'),
+        ('WA', 'Washington'),
+        ('WI', 'Wisconsin'),
+        ('WV', 'West Virginia'),
+        ('WY', 'Wyoming')
+)
+
+# Create your models here.
+class Patient(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    firstName = models.CharField(max_length=1000)
+    lastName = models.CharField(max_length=1000)
+    email = models.EmailField(max_length=1000)
+    city = models.CharField(max_length=1000)
+    state = models.CharField(max_length=1000, choices=states)
+    address1 = models.CharField(max_length=1000)
+    address2 = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=1000)
+    insuranceName = models.CharField(max_length=1000)
+    insuranceID = models.CharField(max_length=1000)
+    hospital = models.CharField(max_length=1000)#choices=getHospitals()
+    emergencyContact = models.PositiveIntegerField()#Link this to another patient
+
+    def __str__(self):
+        return self.firstName + self.lastName
+
+class Doctor(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    firstName = models.CharField(max_length=1000)
+    lastName = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.firstName + " " + self.lastName
+
+class Nurse(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    firstName = models.CharField(max_length=1000)
+    lastName = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=1000)
+    hospital = models.CharField(max_length=1000)#"""choices=getHospitals()""")
+
+    def __str__(self):
+        return self.firstName + " " + self.lastName
+
+class Appointment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    doctor = models.CharField(max_length=1000)#"""choices=getDoctors()""")
+    patient = models.CharField(max_length=1000)#"""choice=getPatients()""")
+    datetime = models.DateTimeField()
+    hospital = models.CharField(max_length=1000)#"""choices=getHospitals()""")
+
+    def __str__(self):
+        return "Appointment"#Not sure what to return
+
+class Hospital(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.name

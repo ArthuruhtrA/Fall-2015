@@ -1,0 +1,120 @@
+<html>
+<head>
+    <title>Healthcare Patient Registration</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/PatientRegistration.css' %}" />
+
+</head>
+
+<body>
+
+
+
+
+
+{% block content %}
+
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+  <form action="" method="post">
+      {% csrf_token %}
+		<div>
+			<h3>Account Information</h3>
+			<p>
+				<label for="username">User name:</label>
+				<input type="text" name="username" value="" id="username">
+			</p>
+			
+			<p>
+				<label for="email">Email Address:</label>
+				<input type="text" name="email" value="" id="email">
+			</p>
+		
+			<p>
+				<label for="password">Password:</label>
+				<input type="password" name="password" value="" id="password">
+			</p>
+		</div>
+		<br>
+		<div>
+			<h3>Personal Information</h3>
+			<p>
+				<label for="FirstName">First Name:</label>
+				<input type="text" name="firstname" value="" id="FirstName">
+			</p>
+		
+			<p>
+				<label for="LastName">Last Name:</label>
+				<input type="text" name="lastname" value="" id="LastName">
+			</p>
+		
+			<p>
+				<label for="City">City:</label>
+				<input type="text" name="city" value="" id="City">
+			</p>
+			
+			<p>
+				<label for="State">State:</label>
+				<input type="text" name="state" value="" id="State">
+			</p>
+		
+			<p>
+				<label for="Address1">Address:</label>
+				<input type="text" name="address1" value="" id="Address1">
+			</p>
+			
+			<p>
+				<label for="Phone">Phone Number:</label>
+				<input type="text" name="phone" value="" id="Phone">
+			</p>
+		</div>
+		<br>
+		
+		<div>
+			<h3>Medical Information</h3>
+			<p>
+				<label for="InsuranceName">Insurance Name:</label>
+				<input type="text" name="insurancename" value="" id="Insurancename">
+			</p>
+			
+			<p>
+				<label for="InsuranceID">InsuranceID:</label>
+				<input type="text" name="insuranceid" value="" id="InsuranceID">
+			</p>
+			
+			<p>
+				<label for="Hospital">Hospital:</label>
+				<input type="text" name="hospital" value="" id="Hospital">
+			</p>
+			
+			<p>
+				<label for="emergencycontactphone">Emergency Contact Phone Number:</label>
+				<input type="text" name="emergencycontactphone" value="" id="EmergencyContactPhone">
+			</p>
+			
+			<p>
+				<label for="MedicalInformation">Medical Information:</label>
+				<input type="text" name="medicalinformation" value="" id="MedicalInformation">
+			</p>
+		</div>
+		<br>
+
+        <input type="submit" value="Register" />
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+  </form>
+
+{% endblock %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/" >Cancel</a>
+
+
+</body>
+
+
+</html>

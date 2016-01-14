@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>HealthNet Calendar</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+<p><br/><br/><br/>
+
+<p>Calendar for {{ year }} {{ month }} {{ day }}</p>
+
+    <table>
+        {% for i in grid %}
+        <tr>
+            {% for n in i %}
+            <td>{{ n.0 }}<br />{{ n.1 }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+<a href="/calendar/{{ prev.year }}/{{ prev.month }}/">&lt;-Prev</a> - <a href="/calendar/{{ nex.year }}/{{ nex.month }}/">Next-&gt;</a>
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+<br />
+<a href="/{{ pOd }}createappointment/">Create Appointment</a>&nbsp;<a href="/{{ pOd }}viewpatientinformation">View Patient</a>&nbsp;<a href="/logout" >logout</a>
+
+</body>
+
+
+</html>

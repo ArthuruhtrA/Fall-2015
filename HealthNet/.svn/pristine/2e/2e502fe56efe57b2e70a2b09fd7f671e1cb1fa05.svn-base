@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>HealthNet Calendar</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+<p><br/><br/><br/></p>
+
+
+{% for doctor in doctors %}
+
+    <a href={{doctor.1}}><p>{{doctor.0}}</p></a>
+
+{% endfor %}
+
+
+<p><br/><br/><br/></p>
+
+{% for patient in patients %}
+
+    <a href={{patient.1}}><p>{{patient.0}}</p></a>
+
+{% endfor %}
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" >logout</a>
+
+</body>
+
+
+</html>

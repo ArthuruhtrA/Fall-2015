@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>HealthNet Calendar</title>
+
+    <!-- {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/NurseViewAppt.css' %}" /> -->
+	{% load bootstrap3 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery=1 %}
+	{% bootstrap_messages %}
+
+</head>
+
+<body>
+
+
+
+	<div>
+	<table border="5">
+		{% for log in logs %}
+
+        <tr><td bgcolor="CCCCCC"><div>{{log.action}}</div></td></tr>
+		<tr><td bgcolor="#7588b9">{{log.dateTime}}</td></tr>
+
+    {% endfor %}
+	</table>
+	</div>
+<div>
+<br>
+<a href=/administration ><input type="submit" value="Back" /></a>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" ><input type="submit" value="Logout" /></a>
+</div>
+</body>
+
+
+</html>

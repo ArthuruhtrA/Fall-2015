@@ -1,0 +1,132 @@
+#IF YOU ARE NOT ARI YOU SHOULD NOT TOUCH THIS FILE!
+#Copyright StackOverflowGooglers 2015
+
+from django.db import models
+import uuid
+
+states = [
+        'Alaska',
+        'Alabama',
+        'Arkansas',
+        'American Samoa',
+        'Arizona',
+        'California',
+        'Colorado',
+        'Connecticut',
+        'District of Columbia',
+        'Delaware',
+        'Florida',
+        'Georgia',
+        'Guam',
+        'Hawaii',
+        'Iowa',
+        'Idaho',
+        'Illinois',
+        'Indiana',
+        'Kansas',
+        'Kentucky',
+        'Louisiana',
+        'Massachusetts',
+        'Maryland',
+        'Maine',
+        'Michigan',
+        'Minnesota',
+        'Missouri',
+        'Northern Mariana Islands',
+        'Mississippi',
+        'Montana',
+        'North Carolina',
+        'North Dakota',
+        'Nebraska',
+        'New Hampshire',
+        'New Jersey',
+        'New Mexico',
+        'Nevada',
+        'New York',
+        'Ohio',
+        'Oklahoma',
+        'Oregon',
+        'Pennsylvania',
+        'Puerto Rico',
+        'Rhode Island',
+        'South Carolina',
+        'South Dakota',
+        'Tennessee',
+        'Texas',
+        'Utah',
+        'Virginia',
+        'Virgin Islands',
+        'Vermont',
+        'Washington',
+        'Wisconsin',
+        'West Virginia',
+        'Wyoming'
+]
+
+# Create your models here.
+class Hospital(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.name
+
+
+class Doctor(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    userNameField = models.CharField(max_length=1000)
+    firstName = models.CharField(max_length=1000)
+    lastName = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.firstName + " " + self.lastName
+
+
+class Patient(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    userNameField = models.CharField(max_length=1000)
+    firstName = models.CharField(max_length=1000)
+    lastName = models.CharField(max_length=1000)
+    email = models.EmailField(max_length=1000)
+    city = models.CharField(max_length=1000)
+    state = models.CharField(max_length=1000)
+    address1 = models.CharField(max_length=1000)
+    address2 = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=1000)
+    insuranceName = models.CharField(max_length=1000)
+    insuranceID = models.CharField(max_length=1000)
+    hospital = models.ForeignKey(Hospital)
+    emergencyContactFirstName = models.CharField(max_length=1000)
+    emergencyContactLastName = models.CharField(max_length=1000)
+    emergencyContactPhone = models.CharField(max_length=1000)
+    emergencyContactEmail = models.CharField(max_length=1000)
+    medicalInformation = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.firstName + " " +  self.lastName
+
+
+
+class Nurse(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    userNameField = models.CharField(max_length=1000)
+    firstName = models.CharField(max_length=1000)
+    lastName = models.CharField(max_length=1000)
+    phone = models.CharField(max_length=1000)
+    hospital = models.ForeignKey(Hospital)
+
+    def __str__(self):
+        return self.firstName + " " + self.lastName
+
+class Appointment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    doctor = models.ForeignKey(Doctor)
+    patient = models.ForeignKey(Patient)
+    dateTime = models.DateTimeField()
+    hospital = models.ForeignKey(Hospital)
+
+    def __str__(self):
+        return "Appointment"#Not sure what to return
+
+

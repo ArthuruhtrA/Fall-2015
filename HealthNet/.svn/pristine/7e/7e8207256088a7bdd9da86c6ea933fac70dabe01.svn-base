@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<a href="/listofpatients" ><input type="submit" value="Back" /></a>
+
+
+{% block content %}
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+				<div class="form-group">
+					<label class="control-label col-md-3" for="reason">Reason:</label>
+					<div class="col-md-3">
+						<input type="text" name="reason" value="" id="reason">
+					</div>
+				</div>
+
+				<input type="submit" class="btn btn-primary col-md-offset-3" value="{{ admitOrDischarge }}">
+				<input type="hidden" name="next" value="{{ next|escape }}">
+
+			</form>
+		{% endblock %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" ><input type="submit" value="Logout" /></a>
+
+
+	<div>
+	<table border="5">
+		<th>{{name}}'s Visits</th>
+		{% for visit in visits %}
+
+        <tr><td bgcolor="CCCCCC"><div>{{visit.0}}</div></td></tr>
+		<tr><td bgcolor="#7588b9">{{visit.1}}</td></tr>
+		<tr><td bgcolor="#7588b9">{{visit.2}}</td></tr>
+    {% endfor %}
+	</table>
+	</div>
+<div>
+<br>
+
+</div>
+</body>
+
+
+</html>

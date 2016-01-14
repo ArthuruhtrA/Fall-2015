@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Doctor</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+		<li class="active"><a href="#">
+			<span class="glyphicon glyphicon-baby-formula"></span>
+			Prescribe {{ patientName }}
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+				<span class="glyphicon glyphicon-envelope"></span>
+				<span class="badge">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/doctorviewdoctordetails">View Profile</a></li>
+            <li><a href="/doctoreditdoctordetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="well col-md-offset-1 col-md-10">
+
+	{% block prescribes %}
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+				<h2>Prescribe to {{ patientName }}</h2>
+				<div class="form-group">
+					<label class="control-label col-md-1" for="name">Drug:</label>
+					<div class="col-md-3">
+						<input type="text" name="name" value="" id="name" class="form-control">
+					</div>
+					<label class="control-label col-md-1" for="details">Details:</label>
+					<div class="col-md-3">
+						<input type="text" name="details" value="" id="details" class="form-control">
+					</div>
+					<input type="submit" class="btn btn-primary" value="Prescribe">
+					<input type="hidden" name="next" value="{{ next|escape }}">
+				</div>
+
+			</form>
+		{% endblock %}
+	</div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+	<div class="well col-md-offset-1 col-md-10">
+		<span class="col-md-11 h2">{{ patientName }}'s Tests</span>
+	<br>
+	<div class="panel">
+	<table class="table table-hover">
+		<tr>
+			<th>Date</th>
+			<th>Name</th>
+			<th>Reason</th>
+		</tr>
+		{% for test in tests %}
+        <tr>
+			<td>
+				{{ test.0 }}
+			</td>
+			<td>
+				{{ test.1 }}
+			</td>
+			<td>
+				{{ test.2 }}
+			</td>
+		</tr>
+    {% endfor %}
+	</table>
+	</div>
+</div>
+</div>
+</body>
+
+
+</html>

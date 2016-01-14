@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Hello World!!!!!</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+<p><br/><br/><br/>
+        {{ user.get_all_permissions }}
+    <br/>
+    {{ perms.patients }}
+    <br/>{{ perms.patients.change_session }}
+    <br/>{{ testString }}
+    <br/><br/><br/>
+    </p>
+
+
+    {% if user.is_superuser %}
+    <p>Access granted</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+
+
+    {% if testString %}
+    <p>Access granted</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+
+
+    {% if user.is_superuser %}
+    <p>Access granted</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+
+</body>
+
+
+</html>

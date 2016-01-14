@@ -1,0 +1,97 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import *
+from datetime import datetime
+from django.db.models import Q
+
+
+def index(request, text):
+    user = request.user
+    userobj = Doctor.objects.get(userNameField=user.username)
+    testString = 'auth.doctor' in user.get_all_permissions()
+
+    doctor=Doctor.objects.get(userNameField=user.username)
+    appointment = Appointment.objects.get(id=text)
+    today = datetime.now()
+
+    #Generates all of the times at which appointments can be scheduled
+    times = []
+    for t in range(0,24):
+        times += [str(t)+":00"]
+
+    context = {"name": userobj.firstName + " " + userobj.lastName, "messagenum": get_number_of_unread(user),"patients" : Patient.objects.order_by("firstName"),"appointment": appointment,"cancellink" : "/doctordeleteappointment/" + text, "times":times}
+
+    #Authenticate the user
+    if not testString:
+        return HttpResponseRedirect("/notauthorized")
+
+    if request.method == "POST":
+        #Grab all submitted data
+        month = request.POST.get('month', '')
+        day = request.POST.get('day', '')
+        year = request.POST.get('year', '')
+        patientId = request.POST.get('patient', '')
+        time = request.POST.get('time', '')
+
+        #If a field was left blank, inform the user and cancel submission
+        if month == '' or day == '' or year == '' or patientId == '' or time == '':
+            context["errortext"]="Missing Required Field"
+            return render(request, 'patients/doctorUpdateCancelAppointment.html',context)
+
+        #Attempt to create the date for the appointment
+        try:
+            date = datetime.strptime(month + ' ' + day +  ' ' + year + ' ' + time + "00", '%m %d %Y %H:%M%S')
+        #This value exception occurs when a user enters an erronious day input
+        except ValueError:
+            context["errortext"]="Invalid Day"
+            return render(request, 'patients/doctorUpdateCancelAppointment.html',context)
+
+
+        patient = Patient.objects.get(id=patientId)
+
+        #Grab all existing appointments at time for both the patient & doctor
+        #It also excludes the appointment which matches it's ID (AKA, itself)
+        patient_existingAppt = Appointment.objects.filter(~Q(id=appointment.id),patient=patient,dateTime=date,hospital=patient.hospital)
+        doctor_existingAppt = Appointment.objects.filter(~Q(id=appointment.id),doctor=doctor, dateTime=date)
+
+        #As long as the appointment has not already happened
+        if today > appointment.dateTime:
+            context["errortext"] = "This appointment has passed"
+            return render(request, 'patients/doctorUpdateCancelAppointment.html',context)
+
+        #If the appointment is in the past, don't create it either
+        elif today > date:
+            context["errortext"] = "Must be scheduled for future"
+            return render(request, 'patients/doctorUpdateCancelAppointment.html',context)
+
+        #If there is an existing appointment, do not create the appointment.
+        elif patient_existingAppt.exists() or doctor_existingAppt.exists():
+            context["errortext"] = "Appointment Conflict"
+            return render(request, 'patients/doctorUpdateCancelAppointment.html',context)
+        
+        #If there's no conflict, and it's not in the past, that time is free
+        else:
+            appointment.patient = patient
+            appointment.dateTime = date
+            appointment.save()
+            #Add a log
+            log_add("Doctor " + str(doctor) + " edited an appointment.")
+
+
+        return HttpResponseRedirect("/calendar")
+    else :
+        return render(request, 'patients/doctorUpdateCancelAppointment.html',context)
+
+
+
+def cancelAppointment(request, text):
+    appointment = Appointment.objects.get(id=text)
+    appointment.delete()
+
+    doctor=Doctor.objects.get(userNameField=request.user.username)
+    log_add("Doctor " + str(doctor) + " cancelled an appointment.")
+
+    return HttpResponseRedirect("/calendar")

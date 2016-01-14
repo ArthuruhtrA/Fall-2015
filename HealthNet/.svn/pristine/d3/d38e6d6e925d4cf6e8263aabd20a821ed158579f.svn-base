@@ -1,0 +1,18 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+# Create your views here.
+
+def index(request):
+    
+    user = request.user
+    #Redirect if not logged in
+    if 'auth.nurse' not in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+
+
+    testString = "Hello world from views"
+    context = {'testString': testString}
+    return render(request, 'patients/index.html', context)

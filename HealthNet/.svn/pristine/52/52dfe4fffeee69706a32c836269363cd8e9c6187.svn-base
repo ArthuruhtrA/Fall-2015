@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>HealthNet Calendar</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/NurseCalendar.css' %}" />
+
+</head>
+
+<body>
+	<div>
+
+	<table>
+		<TH><h2>Patients</h2></TH>
+		{% for patient in patients %}
+			<TR>
+				<TD><a href={{patient.1}}>{{patient.0}}</a></TD>
+			</TR>
+		{% endfor %}
+
+	</table>
+	
+	<table>
+		<TH><h2>Doctors</h2></TH>
+
+		{% for doctor in doctors %}
+			<TR>
+				<TD><a href={{doctor.1}}>{{doctor.0}}</a></TD>
+			</TR>
+		{% endfor %}
+	</table>
+	</div>
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+<br>
+<br>
+
+<a href="/logout" ><input type="submit" value="Logout" class="button" /></a>
+
+</body>
+
+
+</html>

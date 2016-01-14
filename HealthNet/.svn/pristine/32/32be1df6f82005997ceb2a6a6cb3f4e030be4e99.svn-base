@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>Patient Login</title>
+
+    <!-- {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/Login.css' %}" /> -->
+	{% load bootstrap3 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery=1 %}
+	{% bootstrap_messages %}
+
+</head>
+
+<body>
+	<div>
+		<h2>Enter Username and Password</h2>
+
+
+{% block content %}
+
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+		<form action="" method="post">
+		{% csrf_token %}
+			<p>
+				<label for="username">User name:</label>
+				<input type="text" name="username" value="" id="username">
+			</p>
+			<p>
+				<label for="password">Password:</label>
+				<input type="password" name="password" value="" id="password">
+			</p>
+			
+			<input type="submit" value="Login" />
+			<input type="hidden" name="next" value="{{ next|escape }}" />
+			
+		</form>
+		<a href="/patientregistration" ><input type="submit" value="Register" class="button"/></a>
+		<a href="/"><input type="submit" value="Main Menu" class="button" />
+  
+
+	{% endblock %}
+
+	</div>	
+</body>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+</html>

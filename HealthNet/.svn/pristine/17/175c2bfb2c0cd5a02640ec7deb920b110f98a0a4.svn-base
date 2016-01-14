@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>Hello World!!!!!</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<p>
+    <br/><br/><br/><br/><br/><br/><br/>
+</p>
+
+<h1>
+    Welcome to HealthCare.net
+</h1>
+
+<div id="parent">
+
+    <a href="/login"><div id="patients" class="button"><h1>Patients</h1></div></a>
+    <a href="/Staff"><div id="staff" class="button"><h1>Staff</h1></div></a>
+    <a href="/admin"><div id="admin" class="button"><h1>Admin</h1></div></a>
+    <div class="clear"></div>
+
+
+</div>
+
+
+
+
+
+</body>
+
+
+</html>

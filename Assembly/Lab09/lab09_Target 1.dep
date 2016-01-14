@@ -1,0 +1,6 @@
+Dependencies for Project 'lab09', Target 'Target 1': (DO NOT MODIFY !)
+F (.\lab09.s)(0x56574709)(--cpu Cortex-M0+ --pd "__EVAL SETA 1" -g --apcs=interwork -I "C:\Users\sande_000\Documents\RIT\Fall 2015\CMPE-250\Lab09\RTE"-I C:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.7.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 516" --pd "MKL46Z256xxx4 SETA 1"--list .\lab09.lst -o .\lab09.o --depend .\lab09.d)
+I (MKL46Z4.s)(0x562E5DD3)
+F (.\MKL46Z4.s)(0x562E5DD3)(--cpu Cortex-M0+ --pd "__EVAL SETA 1" -g --apcs=interwork -I "C:\Users\sande_000\Documents\RIT\Fall 2015\CMPE-250\Lab09\RTE"-I C:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.7.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 516" --pd "MKL46Z256xxx4 SETA 1"--list .\mkl46z4.lst -o .\mkl46z4.o --depend .\mkl46z4.d)
+F (.\start.s)(0x562E5D7C)(--cpu Cortex-M0+ --pd "__EVAL SETA 1" -g --apcs=interwork -I "C:\Users\sande_000\Documents\RIT\Fall 2015\CMPE-250\Lab09\RTE"-I C:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.7.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 516" --pd "MKL46Z256xxx4 SETA 1"--list .\start.lst -o .\start.o --depend .\start.d)
+I (MKL46Z4.s)(0x562E5DD3)

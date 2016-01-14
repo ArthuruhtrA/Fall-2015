@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>Staff Login</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/Login.css' %}" />
+
+</head>
+
+<body>
+
+
+
+	<div>
+		<h2>Enter Username and Password</h2>
+		{% block content %}
+
+		{% if form.errors %}
+			<p class="error">Sorry, that's not a valid username or password</p>
+		{% endif %}
+
+		<form action="" method="post">
+			{% csrf_token %}
+			<p>
+				<label for="username">User name:</label>
+				<input type="text" name="username" value="" id="username">
+			</p>
+			<p>
+				<label for="password">Password:</label>
+				<input type="password" name="password" value="" id="password">
+			</p>
+			
+			<input type="submit" value="login" />
+			<input type="hidden" name="next" value="{{ next|escape }}" />
+		</form>
+
+{% endblock %}
+
+
+<a href="/" >Main Menu</a>
+	</div>
+
+</body>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+</html>

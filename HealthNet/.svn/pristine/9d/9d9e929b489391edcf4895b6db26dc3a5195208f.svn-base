@@ -1,0 +1,62 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import Appointment
+from ..models import Doctor
+from ..models import Patient
+from ..models import Nurse
+from ..models import log_add
+from ..models import HospitalVisit
+
+import datetime
+import patients.ViewsFolder.DoctorAdmitDischargePatient
+
+# Create your views here.
+
+def index(request, patientid):
+
+    user = request.user
+    #Redirect if not logged in
+    if 'auth.doctor' not in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+
+
+    if request.method == "POST":
+        return patients.ViewsFolder.DoctorAdmitDischargePatient.index(request, patientid, request.POST.get('reason', ''))
+
+    patientList = Patient.objects.order_by("firstName")
+
+    mainPatient = None
+
+    for patient in patientList:
+        if str(patient.id) == patientid:
+            mainPatient = patient
+            break
+
+
+
+    visitList = HospitalVisit.objects.order_by("dateAdmitted")
+
+    patientVisitList = []
+
+
+    for visit in visitList:
+        if mainPatient.id == visit.patient.id:
+            patientVisitList += [(visit.dateAdmitted, visit.dateDischarged, visit.reason)]
+
+
+
+    nameToSendBack = "Patient " + mainPatient.__str__()
+
+    admitOrDischarge  = "Admit"
+
+    if patient.isAdmitted:
+        admitOrDischarge = "Discharge"
+
+    patientVisitList.reverse()
+
+
+    context = {'visits': patientVisitList, "name": nameToSendBack, "admitOrDischarge": admitOrDischarge}
+    return render(request, 'patients/doctorViewPatientDetails.html', context)

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare Patient Registration</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Patient</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="#">
+			<span class="glyphicon glyphicon-plus"></span>
+			Registration
+		</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	{% if errortext %}
+		<div class="alert alert-warning">{{ errortext }}</div>
+	{% endif %}
+
+	<div class="row">
+	<div class="well col-md-offset-1 col-md-10">
+		{% block content %}
+			{% if form.errors %}
+			    <div class="alert alert-danger">Sorry, that's not a valid username or password</div>
+			{% endif %}
+
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a data-toggle="tab" href="#accountinfo">Account Information</a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#personalinfo">Personal Information</a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#medicalinfo">Medical Information</a>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+				<div id="accountinfo" class="tab-pane fade in active">
+					<h2>Account Information</h2>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="username">User name:</label>
+						<div class="col-md-8">
+							<input type="text" name="username" value="" id="username" class="form-control">
+							{% if form.errors %}
+								<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="email">Email Address:</label>
+						<div class="col-md-8">
+							<input type="email" name="email" value="" id="email" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="password">Password:</label>
+						<div class="col-md-8">
+							<input type="password" name="password" value="" id="password" class="form-control">
+							{% if form.errors %}
+								<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+							{% endif %}
+						</div>
+					</div>
+		            <div class="form-group">
+						<label class="control-label col-md-2" for="confirmpassword">Confirm Password:</label>
+						<div class="col-md-8">
+							<input type="password" name="confirmpassword" value="" id="confirmpassword" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<div id="personalinfo" class="tab-pane fade">
+					<h2>Personal Information</h2>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="FirstName">First Name:</label>
+						<div class="col-md-8">
+							<input type="text" name="firstname" value="" id="FirstName" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="LastName">Last Name:</label>
+						<div class="col-md-8">
+							<input type="text" name="lastname" value="" id="LastName" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="City">City:</label>
+						<div class="col-md-8">
+							<input type="text" name="city" value="" id="City" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="State">State:</label>
+						<div class="col-md-8">
+							<select name="state" id="State" class="form-control">
+							{% for state in states %}
+								<option>{{ state }}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="Address1">Address:</label>
+						<div class="col-md-8">
+							<input type="text" name="address1" value="" id="Address1" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="Phone">Phone Number:</label>
+						<div class="col-md-8">
+							<input type="tel" name="phone" value="" id="Phone" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<div id="medicalinfo" class="tab-pane fade">
+					<h2>Medical Information</h2>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="InsuranceName">Insurance Name:</label>
+						<div class="col-md-8">
+							<input type="text" name="insurancename" value="" id="Insurancename" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="InsuranceID">InsuranceID:</label>
+						<div class="col-md-8">
+							<input type="text" name="insuranceid" value="" id="InsuranceID" class="form-control">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="Hospital">Hospital:</label>
+						<div class="col-md-8">
+							<select name="hospital" id="Hospital" class="form-control">
+							{% for hospital in hospitals %}
+							    <option>{{ hospital }}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="emergencycontactfirstname">Emergency Contact First Name:</label>
+						<div class="col-md-8">
+							<input type="text" name="emergencycontactfirstname" value="" id="EmergencyContactFirstName" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="emergencycontactlastname">Emergency Contact Last Name:</label>
+						<div class="col-md-8">
+							<input type="text" name="emergencycontactlastname" value="" id="EmergencyContactLastName" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="emergencycontactphone">Emergency Contact Phone Number:</label>
+						<div class="col-md-8">
+							<input type="tel" name="emergencycontactphone" value="" id="EmergencyContactPhone" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-2" for="emergencycontactemail">Emergency Contact Email:</label>
+						<div class="col-md-8">
+							<input type="email" name="emergencycontactemail" value="" id="EmergencyContactEmail" class="form-control">
+						</div>
+					</div>
+				</div>
+				</div>
+
+				<input type="submit" class="btn btn-primary col-md-offset-2" value="Register">
+				<a href="/" class="btn btn-default" role="button">Cancel</a>
+				<input type="hidden" name="next" value="{{ next|escape }}">
+			</form>
+
+		{% endblock %}
+
+	</div>
+	</div>
+</div>
+</body>
+
+
+</html>

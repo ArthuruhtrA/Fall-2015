@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>HealthNet Calendar</title>
+
+    <!-- {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/calendar.css' %}" /> -->
+	{% load bootstrap3 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery=1 %}
+	{% bootstrap_messages %}
+
+
+</head>
+
+<body>
+
+	<h2>Logged in as: {{ user }}</h2>
+
+
+	<table id="layout">
+<!-- <p>Calendar for {{ year }} {{ month }} {{ day }}</p> -->
+		<th colspan="2"><p>{{ month }}/{{ year }} Appointments</p><th>
+		
+		<tr>
+			<td>
+				<div id="cals">
+					<table class="month" border="1">
+						<tr><th class="weekday">Sunday</th><th class="weekday">Monday</th><th class="weekday">Tuesday</th><th class="weekday">Wednesday</th><th class="weekday">Thursday</th><th class="weekday">Friday</th><th class="weekday">Saturday</th></tr>
+						{% for i in grid %}
+							<tr>
+								{% for n in i %}
+									{% if n.0 %}
+									<td><a href="/calendar/{{ year }}/{{ month }}/{{ n.0 }}/"><div class="day"><p class="date">{{ n.0 }}</p><p class="appts">{{ n.1 }}</p></div></a></td>
+									{% else %}
+									<td><div class="noDay"></div></td>
+									{% endif %}
+								{% endfor %}
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</td>
+			<td id="sched">
+				<div id="schedule">
+					<table>
+						<tr><th>{{ month }}/{{ day }}</th></tr>
+							{% for i in selected %}
+								{% if i.2 != 0 %}
+								<tr><td><a href="/{{ pOd }}updatecancelappointment/{{ i.2 }}/">{{ i.0 }}<br />{{ i.1 }}</a></td></tr>
+								{% else %}
+								<tr><td>{{ i.1 }}</td></tr>
+								{% endif %}
+							{% endfor %}
+							<tr><td><a href="/{{ pod }}/createappointment/"><input type="submit" value="Create Appointment" /></a></td></tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<a href="/calendar/{{ prev.year }}/{{ prev.month }}/"><input type="submit" value="&lt;-Prev" /></a>  <a href="/calendar/{{ nex.year }}/{{ nex.month }}/"><input type="submit" value="Next-&gt;" /></a>
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+<br />
+<a href="/{{ pOd }}createappointment/"><input type="submit" value="Create Appointment" /></a>&nbsp;{% if isPatient %}<a href="/{{ pOd }}viewpatientdetails/"><input type="submit" value="View Patient" /></a>{% endif %}&nbsp;<a href="/logout" ><input type="submit" value="Logout"/></a>
+
+</body>
+
+
+</html>

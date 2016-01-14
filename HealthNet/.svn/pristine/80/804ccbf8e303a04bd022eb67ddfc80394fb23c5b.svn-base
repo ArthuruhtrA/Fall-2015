@@ -1,0 +1,20 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+
+# Create your views here.
+
+def index(request):
+    testString = "Hello world from views"
+    user = request.user
+    testString = user.has_perm('sessions.change_session')
+    testString = 'auth.patient' in user.get_all_permissions()
+    context = {'testString': testString}
+
+    """not user.is_anonymous()"""
+    if testString:
+        return render(request, 'patients/calendar.html', context)
+    else:
+        return HttpResponseRedirect("/notauthorized")

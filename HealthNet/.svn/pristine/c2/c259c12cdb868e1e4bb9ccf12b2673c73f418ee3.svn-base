@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Calendar</title>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery=1 %}
+    {% bootstrap_messages %}
+
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}" />
+</head>
+<body><nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">HealthNet</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/{{ pOd }}view{{ pOd }}details">{{ user}}
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+			<li><a href="/{{ pOd }}view{{ pOd }}details">View Profile</a></li>
+            <li><a href="/{{ pOd }}edit{{ pOd }}details">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li class="active"><a href="/calendar">Calendar</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-9">
+			<table class="table table-bordered">
+				<tr class="thead">
+					<th>Sunday</th>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+				</tr>
+				{% for i in grid %}
+					<tr>
+						{% for n in i %}
+							{% if n.0 %}
+								<td class="col-md-1">
+									<a href="/calendar/{{ year }}/{{ month }}/{{ n.0 }}/">
+										<div class="day">
+											<p class="date">
+												{{ n.0 }}
+											</p>
+											<p class="appts">
+												{{ n.1 }}
+											</p>
+										</div>
+									</a>
+								</td>
+							{% else %}
+								<td class="col-md-1">
+									<div></div>
+								</td>
+							{% endif %}
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="col-md-2">
+			<table class="table table-striped">
+				<tr><th>{{ month }}/{{ day }}</th></tr>
+				{% for i in selected %}
+					{% if i.2 != 0 %}
+						<tr>
+							<td>
+								<a href="/{{ pOd }}updatecancelappointment/{{ i.2 }}/">
+									{{ i.0 }}<br />{{ i.1 }}
+								</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td>
+								{{ i.1 }}
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</table>
+			<a href="/{{ pOd }}createappointment/"><input type="submit" value="Create Appointment" /></a>
+		</div>
+	</div>
+	<div class="row">
+		<a href="/calendar/{{ prev.year }}/{{ prev.month }}/"><input type="submit" value="&lt;-Prev" /></a>  <a href="/calendar/{{ nex.year }}/{{ nex.month }}/"><input type="submit" value="Next-&gt;" /></a>
+	</div>
+</div>
+</body>
+</html>

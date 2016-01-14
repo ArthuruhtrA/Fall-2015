@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Appointment</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Patient</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		<li class="active"><a href="/patientupdatecancelappointment/">
+			<span class="glyphicon glyphicon-edit"></span>
+			Change Appointment
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			{# These don't exist for doctors. I'd like at least the view though. #}
+			<li><a href="/patientviewpatientdetails">View Profile</a></li>
+            <li><a href="/patienteditpatientdetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="well col-md-offset-3 col-md-6">
+<h2>Appointment Details</h2>
+	{% if errortext %}
+		<div class="alert alert-warning">{{ errortext }}</div>
+	{% endif %}
+
+
+
+{% block content %}
+
+
+	<form action="" method="post" role="form" class="form-horizontal">
+      {% csrf_token %}
+
+		<div class="form-group">
+		<label class="control-label col-md-3" for="Month">Month:</label>
+		<div class="col-md-4">
+			<select name="month" id="Month" class="form-control">
+				<option value=1 {% if appointment.dateTime.month == 1%} selected = "selected" {%endif %}>January</option>
+				<option value=2 {% if appointment.dateTime.month == 2%} selected = "selected" {%endif %}>February</option>
+				<option value=3 {% if appointment.dateTime.month == 3%} selected = "selected" {%endif %}>March</option>
+				<option value=4 {% if appointment.dateTime.month == 4%} selected = "selected" {%endif %}>April</option>
+				<option value=5 {% if appointment.dateTime.month == 5%} selected = "selected" {%endif %}>May</option>
+				<option value=6 {% if appointment.dateTime.month == 6%} selected = "selected" {%endif %}>June</option>
+				<option value=7 {% if appointment.dateTime.month == 7%} selected = "selected" {%endif %}>July</option>
+				<option value=8 {% if appointment.dateTime.month == 8%} selected = "selected" {%endif %}>August</option>
+				<option value=9 {% if appointment.dateTime.month == 9%} selected = "selected" {%endif %}>September</option>
+				<option value=10 {% if appointment.dateTime.month == 10%} selected = "selected" {%endif %}>October</option>
+				<option value=11 {% if appointment.dateTime.month == 11%} selected = "selected" {%endif %}>November</option>
+				<option value=12 {% if appointment.dateTime.month == 12%} selected = "selected" {%endif %}>December</option>
+			</select>
+		</div>
+	  </div>
+
+		<div class="form-group">
+		<label class="control-label col-md-3" for="Day">Day (DD):</label>
+		<div class="col-md-4">
+			<input type="text" name="day" value={{appointment.dateTime.day}} id="Day" class="form-control">
+		</div>
+	  </div>
+
+	  	<div class="form-group">
+		<label class="control-label col-md-3" for="Year">Year:</label>
+		<div class="col-md-4">
+			<select name="year" id="Year" class="form-control">
+				<option>2015</option>
+				<option>2016</option>
+				<option>2017</option>
+				<option>2018</option>
+				<option>2019</option>
+			</select>
+		</div>
+	  </div>
+
+	  	<div class="form-group">
+		<label class="control-label col-md-3" for="Time">Time:</label>
+		<div class="col-md-4">
+			<select name="time" id="Time" class="form-control">
+				{% for time in times %}
+				<option {% if appointment.dateTime.hour == forloop.counter0 %} selected = "selected" {% endif %}> {{time}} </option>
+				{% endfor %}
+			</select>
+		</div>
+	  </div>
+
+	  	<div class="form-group">
+		<label class="control-label col-md-3" for="Doctor">Doctor:</label>
+		<div class="col-md-4">
+			<select name="doctor" id="Doctor" class="form-control">
+                {% for doctor in doctors %}
+                    <option value={{doctor.id}} {% if appointment.doctor == doctor %} selected="selected"{% endif %}>{{ doctor }}</option>
+                {% endfor %}
+			</select>
+		</div>
+	  </div>
+
+        <input type="submit" value="Change Appointment" class="btn btn-primary">
+        <input type="hidden" name="next" value="{{ next|escape }}">
+		<a href="{{ cancellink }}" class="btn btn-default">Cancel Appointment</a>
+		<a href="/calendar" class="btn btn-default">Cancel</a>
+  </form>
+
+{% endblock %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+	</div>
+</div>
+</body>
+
+
+</html>

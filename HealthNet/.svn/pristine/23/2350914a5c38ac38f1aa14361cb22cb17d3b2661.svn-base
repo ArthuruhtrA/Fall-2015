@@ -1,0 +1,75 @@
+p {
+    color : white;
+    text-align : center;
+}
+
+h1 {
+    color : white;
+    text-align : center;
+    font-family : Ariel, sans-serif;
+    font-weight : 900;
+    font-size : 3em;
+}
+
+body {
+    background : #99CCFF;
+}
+
+
+div {
+    background-color : transparent;
+    margin : auto;
+    padding-left : 15%;
+}
+
+#parent div {
+    display: inline-block;
+    width : 20%;
+}
+
+div.button {
+    border-radius: 25px;
+    background: #66AAFF;
+    padding: 40px;
+    width: 20%;
+    height: 150px;
+    margin-top : 30px;
+}
+
+div.button:hover {
+    margin-top: 15px;
+    padding-bottom : 55;
+    background: green;
+}
+
+#staff:hover {
+    background: blue;
+}
+
+#admin:hover {
+    background: grey;
+}
+
+ul {
+    list-style: none;
+    height: 100px;
+    width: 100%;
+    padding: 0px;
+}
+
+li {
+    text-align: center;
+}
+
+.fixed {
+    /*position: fixed;
+    top: 0px;*/
+}
+
+.news {
+    height: 100px;
+    width: 100%;
+    padding: 0px;
+}
+
+#Copyright 2015 StackOverflowGooglers

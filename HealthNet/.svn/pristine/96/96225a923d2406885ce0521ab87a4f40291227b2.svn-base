@@ -1,0 +1,9 @@
+proctype P1() {
+
+	printf("Hello world");
+
+}
+
+init{
+	run P1();
+}

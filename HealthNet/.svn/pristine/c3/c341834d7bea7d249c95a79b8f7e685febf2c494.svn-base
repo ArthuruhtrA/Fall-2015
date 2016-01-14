@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthCare.net Administration</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Administrator</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="/administration">
+			<span class="glyphicon glyphicon-home"></span>
+			Home
+		</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-plus"></span>
+			Create Account<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/createdoctor">Create Doctor</a></li>
+            <li><a href="/createnurse">Create Nurse</a></li>
+          </ul>
+        </li>
+		<li><a href="/viewlogs">
+			<span class="glyphicon glyphicon-eye-open"></span>
+			View Logs
+		</a></li>
+		<li><a href="/messageboard">
+			<span class="glyphicon glyphicon-bullhorn"></span>
+			Message Board
+		</a></li>
+		<li><a href="/admin">
+			<span class="glyphicon glyphicon-cog"></span>
+			Advanced Settings
+		</a></li>
+      </ul>
+    </div>
+    <div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/adminviewadmindetails">View Profile</a></li>
+            <li><a href="/admineditadmindetails">Edit Profile</a></li>
+          </ul>
+        </li>
+			<li>
+				<a href="/logout">
+					<span class="glyphicon glyphicon-log-out"></span>
+					Logout
+				</a>
+			</li>
+		</ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="well col-md-offset-1 col-md-10">
+
+{% if next %}
+    {% if not user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<h1>
+    Welcome to HealthCare.net Administration
+</h1>
+
+<div id="parent">
+
+	<a href="/createdoctor" id="patients" class="btn">
+		<h1>
+			<span class="glyphicon glyphicon-plus"></span>
+			Create Doctor
+		</h1>
+	</a>
+	<br>
+	<a href="/createnurse" id="staff" class="btn">
+		<h1>
+			<span class="glyphicon glyphicon-plus"></span>
+			Create Nurse
+		</h1>
+	</a>
+	<br>
+    <a href="/viewlogs" id="admin" class="btn">
+		<h1>
+			<span class="glyphicon glyphicon-eye-open"></span>
+			View Logs
+		</h1>
+	</a>
+	<br>
+    <a href="/messageboard" id="message" class="btn">
+		<h1>
+			<span class="glyphicon glyphicon-bullhorn"></span>
+			Message Board
+		</h1>
+	</a>
+	<br>
+    <a href="/admin" id="superuser" class="btn">
+		<h1>
+			<span class="glyphicon glyphicon-cog"></span>
+			Advanced Settings
+		</h1>
+	</a>
+	<br>
+    <a href="/logout" id="logout" class="btn">
+		<h1>
+			<span class="glyphicon glyphicon-log-out"></span>
+			Logout
+		</h1>
+	</a>
+    <div class="clear"></div>
+
+
+</div>
+	</div>
+</div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+</body>
+
+
+</html>

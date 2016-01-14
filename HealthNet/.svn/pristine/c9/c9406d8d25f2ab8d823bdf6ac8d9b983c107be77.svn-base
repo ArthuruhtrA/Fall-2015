@@ -1,0 +1,12 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+from ..models import log_add
+
+# Create your views here.
+
+def index(request):
+    testString = "Hello world from views"
+    context = {'testString': testString}
+    return render(request, 'patients/index.html', context)

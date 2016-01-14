@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare Nurse Registration</title>
+
+	{% load staticfiles %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+
+
+
+
+{% block content %}
+
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+  <form action="" method="post">
+      {% csrf_token %}
+		<div>
+			<h2>Account Information</h2>
+			<p>
+				<label for="message">Message:</label>
+				<input type="text" name="message" value="" id="message">
+			</p>
+
+
+		</div>
+		<br>
+
+        <input type="submit" value="Register" />
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+  </form>
+
+{% endblock %}
+
+
+{% for message in messages %}
+	<p>{{message}}</p>
+{% endfor %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/messaging" ><input type="submit" value="Cancel" /></a>
+
+
+</body>
+
+
+</html>

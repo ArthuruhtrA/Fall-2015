@@ -1,0 +1,4 @@
+#IF YOU ARE NOT ARI YOU SHOULD NOT TOUCH THIS FILE!
+from django.db import models
+
+# Create your models here.

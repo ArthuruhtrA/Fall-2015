@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare Edit Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> {{ pOd | title }}</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+		<li class="active"><a href="#">
+			<span class="glyphicon glyphicon-edit"></span>
+			Edit {{ patient.firstName }} {{ patient.lastName }}
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+				<span class="glyphicon glyphicon-envelope"></span>
+				<span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+			<li>
+			  <a>
+				<span class="glyphicon glyphicon-user"></span>
+				{{ name }}
+			  </a>
+			</li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	{% if errortext %}
+		<div class="alert alert-warning">{{ errortext }}</div>
+	{% endif %}
+
+	<div class="row">
+	<div class="well col-md-offset-1 col-md-10">
+		{% block content %}
+
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+				<div id="medicalinfo" class="">
+					<h2>Medical Information</h2>
+
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="Hospital">Hospital:</label>
+						<div class="col-md-8">
+							<select name="hospital" id="Hospital" class="form-control">
+							{% for hospital in hospitals %}
+							    <option{% if patient.hospital == hospital %} selected=selected{% endif %}>{{ hospital }}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="MedicalInformation">Medical Information:</label>
+						<div class="col-md-8">
+							<textarea rows="5" name="medicalinformation" value="{{ patient.medicalInformation }}" id="MedicalInformation" class="form-control"></textarea>
+						</div>
+					</div>
+
+				<input type="submit" class="btn btn-primary col-md-offset-2" value="Change">
+				<a href="/listofpatients" class="btn btn-default" role="button">Cancel</a>
+				<input type="hidden" name="next" value="{{ next|escape }}">
+			</form>
+
+		{% endblock %}
+
+	</div>
+	</div>
+</div>
+</body>
+</html>

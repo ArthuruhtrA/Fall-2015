@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Calendar</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Nurse</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="/nursecalendar">
+			<span class="glyphicon glyphicon-home"></span>
+			Home
+		</a></li>
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/nurseviewnursedetails">View Profile</a></li>
+            <li><a href="/nurseeditnursedetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="well col-md-offset-1 col-md-10">
+
+	<div>
+	<h1>Select To See Appointments</h1>
+	<table>
+		<TH><h2>Patients</h2></TH>
+		{% for patient in patients %}
+			<TR>
+				<TD><a href={{patient.1}}>{{patient.0}}</a></TD>
+			</TR>
+		{% endfor %}
+
+	</table>
+	
+	<table>
+		<TH><h2>Doctors</h2></TH>
+
+		{% for doctor in doctors %}
+			<TR>
+				<TD><a href={{doctor.1}}>{{doctor.0}}</a></TD>
+			</TR>
+		{% endfor %}
+	</table>
+	</div>
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+<br>
+<br>
+<div>
+<a href="/logout" ><input type="submit" value="Logout" class="button" /></a>
+</div>
+
+	</div>
+</div>
+</body>
+
+
+</html>

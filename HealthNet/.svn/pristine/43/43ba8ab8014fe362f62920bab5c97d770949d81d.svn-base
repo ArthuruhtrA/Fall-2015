@@ -1,0 +1,59 @@
+#Copyright StackOverflowGooglers 2015
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
+from django.contrib import auth
+from django.contrib.contenttypes.models import ContentType
+from django.db import IntegrityError
+import datetime
+
+from ..models import *
+
+# Create your views here.
+
+
+def index(request, person):
+    user = request.user
+    if user.is_anonymous():
+        return HttpResponseRedirect("/notauthorized")
+    if request.method == "POST":
+        message = request.POST.get('message', '')
+        if message == '':
+            return render(request, 'patients/messageSend.html', {"messages" : getAllMessagesBetweenPeople(user, person)})
+
+        newMessage = PrivateMessage(sender=user, receiver=person, dateTime=datetime.datetime.now(), message=message)
+
+
+
+        newMessage.save()
+
+        return render(request, 'patients/messageSend.html', { "messages" : getAllMessagesBetweenPeople(user, person)})
+
+    else :
+
+
+        return render(request, 'patients/messageSend.html', { "messages" : getAllMessagesBetweenPeople(user, person)})
+
+
+def getAllMessagesBetweenPeople(one, two):
+    allMessages = PrivateMessage.objects.order_by("dateTime")
+
+    selectMessages = []
+
+    for message in allMessages:
+        if message.sender == two and message.receiver == one:
+            message.isUnread = False
+            message.save()
+        if (message.sender == one and message.receiver == two) or (message.sender == two and message.receiver == one):
+            selectMessages += [str(message)]
+
+
+
+    selectMessages.reverse()
+
+    return selectMessages
+
+#Copyright StackOverflowGooglers 2015

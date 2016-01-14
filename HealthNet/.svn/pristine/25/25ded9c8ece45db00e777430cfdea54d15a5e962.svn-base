@@ -1,0 +1,45 @@
+from django.shortcuts import render
+from datetime import date, timedelta
+import calendar
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from ..models import *
+from django.db.models import Q
+
+# Create your views here.
+
+def index(request, cal_year, cal_month, cal_day):
+    user = request.user
+    #Redirect if not logged in
+    if 'auth.nurse' in user.get_all_permissions():#nurses have a separate calendar
+        return HttpResponseRedirect("/nursecalendar")
+    if 'auth.patient' not in user.get_all_permissions() and 'auth.doctor' not in user.get_all_permissions():#needs to be logged in
+        return HttpResponseRedirect("/notauthorized")
+    #Otherwise display calendar
+    cal_year = int(cal_year)#Cast all input to int
+    cal_month = int(cal_month)
+    cal_day = int(cal_day)
+    grid = [[None] * 7, [None] * 7, [None] * 7, [None] * 7, [None] * 7, [None] * 7]#Initialize grid
+    offset = date(cal_year, cal_month, 1).weekday() + 1#Starting day of week (Python starts on Monday, so fix)
+    if offset == 7:
+        offset = 0
+    cal = calendar.Calendar(6)#initialize calendar
+    for d in cal.itermonthdates(cal_year, cal_month):
+        curr = d.day + offset - 1
+        #count appointments for user on this date
+        #numAppointments = Appointment.objects.filter(patient.userNameField=(user.username)).count() + Appointment.objects.filter(doctor.userNameField=(user.username)).count()
+        numAppointments = 0
+        apps = Appointment.objects.filter(dateTime=d)
+        for i in apps:
+            if i.patient.userNameField == user.username or i.doctor.userNameField == user.username:
+                numAppointments += 1
+
+        grid[curr // 7][curr % 7] = (d.day, numAppointments)
+
+    today = date(cal_year, cal_month, 1)
+    prev = today - timedelta(1)
+    nex = today + timedelta(32)
+
+    pOd = "patient" if 'auth.patient' in user.get_all_permissions() else "doctor"
+    return render(request, 'patients/calendar.html', {"grid": grid, "year": cal_year, "month": cal_month, "day": cal_day, "prev": prev, "nex": nex, "pOd": pOd})

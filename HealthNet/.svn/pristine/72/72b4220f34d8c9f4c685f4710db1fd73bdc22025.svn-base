@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>HealthNet Calendar</title>
+
+    <!-- {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/NurseViewAppt.css' %}" /> -->
+	{% load bootstrap3 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery=1 %}
+	{% bootstrap_messages %}
+
+</head>
+
+<body>
+
+<p><br/><br/><br/>
+
+	<div>
+	<table border="5">
+		<th>{{name}}'s Appointment(s) on {{date}}</th>
+		{% for appointment in appointments %}
+
+        <tr><td bgcolor="CCCCCC"><a href="/nurseupdateappointment/{{appointment.3}}"><div>{{appointment.0}}</div></a></td></tr>
+		<tr><td bgcolor="#7588b9">{{appointment.1}}</td></tr>
+		<tr><td bgcolor="#7588b9">{{appointment.2}}</td></tr>
+	<br><br>
+    {% endfor %}
+	</table>
+	</div>
+<div>
+<br>
+<a href={{ backURL }} ><input type="submit" value="Back" /></a>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" ><input type="submit" value="Logout" /></a>
+</div>
+</body>
+
+
+</html>

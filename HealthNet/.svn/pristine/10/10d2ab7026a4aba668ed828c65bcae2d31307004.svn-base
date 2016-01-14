@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare Edit Patient</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Patient</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		<li><a href="/patientviewpatientdetails">
+			<span class="glyphicon glyphicon-eye-open"></span>
+			View Patient Details
+		</a></li>
+		<li class="active"><a href="/patienteditpatientdetails">
+			<span class="glyphicon glyphicon-edit"></span>
+			Edit Patient Details
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ patient.firstName }} {{ patient.lastName }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/patientviewpatientdetails">View Profile</a></li>
+            <li><a href="/patienteditpatientdetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	{% if errortext %}
+		<div class="alert alert-warning">{{ errortext }}</div>
+	{% endif %}
+
+	<div class="row">
+	<div class="well col-md-offset-1 col-md-10">
+		{% block content %}
+			{% if form.errors %}
+			    <div class="alert alert-danger">Sorry, that's not a valid username or password</div>
+			{% endif %}
+
+			<form action="" method="post" role="form" class="form-horizontal">
+				{% csrf_token %}
+
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a data-toggle="tab" href="#accountinfo">Account Information</a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#personalinfo">Personal Information</a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#medicalinfo">Medical Information</a>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+				<div id="accountinfo" class="tab-pane fade in active">
+					<h2>Account Information</h2>
+
+				</div>
+
+				<div id="personalinfo" class="tab-pane fade">
+					<h2>Personal Information</h2>
+
+
+
+				</div>
+
+				<div id="medicalinfo" class="tab-pane fade">
+					<h2>Medical Information</h2>
+
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="Hospital">Hospital:</label>
+						<div class="col-md-8">
+							<select name="hospital" id="Hospital" class="form-control">
+							{% for hospital in hospitals %}
+							    <option{% if patient.hospital == hospital %} selected=selected{% endif %}>{{ hospital }}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="control-label col-md-2" for="MedicalInformation">Medical Information:</label>
+						<div class="col-md-8">
+							<textarea rows="5" name="medicalinformation" value="{{ patient.medicalInformation }}" id="MedicalInformation" class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
+				</div>
+
+				<input type="submit" class="btn btn-primary col-md-offset-2" value="Change">
+				<a href="/listofpatients" class="btn btn-default" role="button">Cancel</a>
+				<input type="hidden" name="next" value="{{ next|escape }}">
+			</form>
+
+		{% endblock %}
+
+	</div>
+	</div>
+</div>
+</body>
+</html>

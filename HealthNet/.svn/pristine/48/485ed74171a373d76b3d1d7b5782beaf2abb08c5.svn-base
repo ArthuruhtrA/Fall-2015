@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Hello World!!!!!</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/HomePageStyle.css' %}" />
+
+</head>
+
+<body>
+
+<p><br/><br/><br/>
+
+
+    {% if testString %}
+    <p>Access granted</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" >logout</a>
+
+</body>
+
+
+</html>

@@ -1,0 +1,13 @@
+/* This stylesheet is the universal override to bootstrap.
+ * Additional classes may be added here.
+ * Remember that any change here changes everywhere.
+ */
+
+td:hover, td > a:hover{
+    text-decoration: none;
+    background-color: #9FC;
+}
+
+th {
+    background-color: #FFF;
+}

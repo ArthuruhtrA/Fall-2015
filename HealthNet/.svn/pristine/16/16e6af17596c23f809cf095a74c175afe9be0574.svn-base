@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare Patient Registration</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet Patient</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<p>{{ errortext }}</p>
+
+
+
+{% block content %}
+
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+  <form action="" method="post">
+      {% csrf_token %}
+		<div>
+			<h2>Account Information</h2>
+			<p>
+				<label for="username">User name:</label>
+				<input type="text" name="username" value="" id="username">
+			</p>
+			
+			<p>
+				<label for="email">Email Address:</label>
+				<input type="text" name="email" value="" id="email">
+			</p>
+		
+			<p>
+				<label for="password">Password:</label>
+				<input type="password" name="password" value="" id="password">
+			</p>
+            <p>
+				<label for="confirmpassword">Confirm Password:</label>
+				<input type="password" name="confirmpassword" value="" id="confirmpassword">
+			</p>
+		</div>
+		<br>
+		<div>
+			<h2>Personal Information</h2>
+			<p>
+				<label for="FirstName">First Name:</label>
+				<input type="text" name="firstname" value="" id="FirstName">
+			</p>
+		
+			<p>
+				<label for="LastName">Last Name:</label>
+				<input type="text" name="lastname" value="" id="LastName">
+			</p>
+		
+			<p>
+				<label for="City">City:</label>
+				<input type="text" name="city" value="" id="City">
+			</p>
+			
+			<p>
+				<label for="State">State:</label>
+				<select name="state" id="State">
+                    {% for state in states %}
+                        <option>{{ state }}</option>
+                    {% endfor %}
+                </select>
+			</p>
+		
+			<p>
+				<label for="Address1">Address:</label>
+				<input type="text" name="address1" value="" id="Address1">
+			</p>
+			
+			<p>
+				<label for="Phone">Phone Number:</label>
+				<input type="text" name="phone" value="" id="Phone">
+			</p>
+		</div>
+		<br>
+		
+		<div>
+			<h2>Medical Information</h2>
+			<p>
+				<label for="InsuranceName">Insurance Name:</label>
+				<input type="text" name="insurancename" value="" id="Insurancename">
+			</p>
+			
+			<p>
+				<label for="InsuranceID">InsuranceID:</label>
+				<input type="text" name="insuranceid" value="" id="InsuranceID">
+			</p>
+			
+			<p>
+				<label for="Hospital">Hospital:</label>
+                <select name="hospital" id="Hospital">
+                    {% for hospital in hospitals %}
+                        <option>{{ hospital }}</option>
+                    {% endfor %}
+                </select>
+			</p>
+
+			
+			<p>
+				<label for="emergencycontactfirstname">Emergency Contact First Name:</label>
+				<input type="text" name="emergencycontactfirstname" value="" id="EmergencyContactFirstName">
+			</p>
+			<p>
+				<label for="emergencycontactlastname">Emergency Contact Last Name:</label>
+				<input type="text" name="emergencycontactlastname" value="" id="EmergencyContactLastName">
+			</p>
+			<p>
+				<label for="emergencycontactphone">Emergency Contact Phone Number:</label>
+				<input type="text" name="emergencycontactphone" value="" id="EmergencyContactPhone">
+			</p>
+			<p>
+				<label for="emergencycontactemail">Emergency Contact Email:</label>
+				<input type="text" name="emergencycontactemail" value="" id="EmergencyContactEmail">
+			</p>
+			
+			<p>
+				<label for="MedicalInformation">Medical Information:</label>
+				<input type="text" name="medicalinformation" value="" id="MedicalInformation">
+			</p>
+		</div>
+		<br>
+
+        <input type="submit" value="Register" />
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+  </form>
+
+{% endblock %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/" ><input type="submit" value="Cancel" /></a>
+
+
+</body>
+
+
+</html>

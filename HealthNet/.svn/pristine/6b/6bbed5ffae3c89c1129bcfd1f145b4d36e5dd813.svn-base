@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare.net Home</title>
+
+	{% load staticfiles %}
+	<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}"> -->
+	<!-- Ignoring Bootstrap for home page. Leaving original. -->
+	<link rel="stylesheet" type="text/css" href="{%static 'patients/HomePageStyle.css' %}">
+</head>
+
+<body>
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<p>
+    <br><br><br><br><br><br><br>
+</p>
+
+<h1>
+    Welcome to HealthCare.net
+</h1>
+
+<div id="parent">
+
+    <a href="/login"><div id="patients" class="button"><h1>Patients</h1></div></a>
+    <a href="/stafflogin"><div id="staff" class="button"><h1>Staff</h1></div></a>
+    <a href="/stafflogin"><div id="admin" class="button"><h1>Admin</h1></div></a>
+    <div class="clear"></div>
+
+
+</div>
+
+
+{% for message in messages %}
+    <p>{{message.0}}</p>
+    <p>{{message.1}}</p>
+{% endfor %}
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+</body>
+
+
+</html>

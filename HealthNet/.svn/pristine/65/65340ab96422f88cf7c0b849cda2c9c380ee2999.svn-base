@@ -1,0 +1,61 @@
+R1
+[First features to be implemented]
+{
+	Home Page
+}  Starting page, links to all logins
+{
+	Patient registration
+}  Create patient
+{
+	Patient Login
+	Doctor Login
+	Nurse Login
+}  Login page
+{
+	Admin Login
+	Admin Create Admin
+	Admin Create Doctor
+	Admin Create Nurse
+}  Super User
+{
+	Patient Create Appointment
+	Doctor Create Appointment
+}  Create Appointment
+{
+	Patient View Calendar
+	Doctor View Calendar
+}  All appointments visible for that person in the calendar
+{
+	Nurse View Calendar
+}  Next 8 days, all appointments visible
+
+[Dependant on previous features]
+{
+	Patient Edit Patient Details
+	Patient View Patient Details
+}  Can probably be merged into one page
+{
+	Patient Update/Cancel Appointment
+	Doctor Update/Cancel Appointment
+}  
+{
+	Nurse Update Appointment
+}  Same as other page, but doesn't get to cancel
+{
+	Admin View Log
+}  Straightforward, hopefully able to use superuser for this
+
+
+R2
+Admin View Stats
+Doctor/Nurse Edit Patient Med Info
+Doctor/Nurse/Patient View Patient Med Info	
+Doctors/Nurse/Patient View Perscriptions
+Doctor add/remove Perscriptions
+Doctors evaltuate/release patient test results
+Patients view test results
+Doctor/Nurse admition for extended stay
+Doctor discharge patient
+Doctor/Admin patient transfer between hospitals
+Doctor upload files into patient med info
+Doctor/Nurse/Admin/Patient private message

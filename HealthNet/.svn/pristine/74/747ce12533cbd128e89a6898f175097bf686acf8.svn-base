@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Healthcare Messaging</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> {{ pOd | title }}</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/calendar">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar
+		</a></li>
+		{% if pOd == "doctor" or pOd == "nurse" %}
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+		{% endif %}
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li class="active"><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			{# These don't exist for doctors or nurses. I'd like at least the view though. #}
+			<li><a href="/{{ pOd }}view{{ pOd }}details">View Profile</a></li>
+            <li><a href="/{{ pOd }}edit{{ pOd }}details">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="well col-md-offset-1 col-md-10">
+{% block content %}
+
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+	<form action="" method="post" role="form" class="form-horizontal">
+      {% csrf_token %}
+			<h2 class="col-md-offset-1">Message {{ whoelse }}</h2>
+			<div class="form-group">
+				<label class="control-label col-md-2" for="message">Message:</label>
+				<div class="col-md-8">
+					<textarea rows=5 name="message" value="" id="message" class="form-control"></textarea>
+				</div>
+			</div>
+
+        <input type="submit" value="Send" class="btn btn-primary col-md-offset-2">
+        <input type="hidden" name="next" value="{{ next|escape }}">
+		<a href="/messaging" class="btn btn-default">Cancel</a>
+  </form>
+
+{% endblock %}
+<div class="panel">
+<table class="table table-hover">
+{% for message in messages %}
+	<tr class="{% if who == message.sender.username %}info{% endif %}">
+		<td class="col-md-2">{{ message.dateTime }}</td>
+		<td class="col-md-8">
+			{{ message.message }}
+			{% if not message.isUnread %}
+			<span class="glyphicon glyphicon-ok label label-success"></span>
+			{% endif %}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+
+</body>
+
+
+</html>

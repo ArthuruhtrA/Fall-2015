@@ -1,0 +1,35 @@
+input {
+	width: 5%;
+	display: inline-block;
+	min-width: 50px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+	font-size: 2em;
+}
+
+body {
+	background: #99CCFF;
+}
+
+td {
+	height: 10%;
+	border-radius: 15px;
+	text-align: center;
+	width: 100%;
+}
+
+table {
+	display: inline;
+	text-align: center;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	border-radius: 10px;
+}
+
+div {
+	margin: auto;
+	text-align: center;
+}

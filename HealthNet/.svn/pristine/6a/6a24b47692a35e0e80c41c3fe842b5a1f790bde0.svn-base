@@ -1,0 +1,22 @@
+input {
+	display: block;
+	margin: auto;
+	
+}
+
+body {
+	background-color: #99CCFF;
+}
+
+table {
+	display: block;
+	margin: auto;
+	width: 50%;
+}
+
+td {
+	border: 1px solid black;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+

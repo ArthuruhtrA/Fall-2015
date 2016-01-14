@@ -1,0 +1,7 @@
+--cpu Cortex-M0+
+".\lab09.o"
+".\mkl46z4.o"
+".\start.o"
+--ro-base 0x00000000 --entry 0x00000000 --rw-base 0x1FFFE000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\lab09.map" -o .\lab09.axf

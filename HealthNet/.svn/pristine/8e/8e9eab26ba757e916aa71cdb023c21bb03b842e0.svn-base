@@ -1,0 +1,36 @@
+.button {
+	display: block;
+	width: 5%;
+	margin: auto;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+	font-size: 2em;
+}
+
+body {
+	background: #99CCFF;
+}
+
+td {
+	height: 10%;
+	width: 70%;
+	background-color: #7588b9;
+	border-radius: 15px;
+	text-align: center;
+}
+
+table {
+	display: inline;
+	text-align: center;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	border-radius: 10px;
+}
+
+div {
+	margin: auto;
+	text-align: center;
+}

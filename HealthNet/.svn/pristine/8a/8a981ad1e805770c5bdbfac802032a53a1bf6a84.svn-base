@@ -1,0 +1,26 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import Log
+
+import datetime
+
+# Create your views here.
+
+def index(request):
+
+    user = request.user
+    #Redirect if not logged in
+    if 'auth.nurse' not in user.get_all_permissions() or 'auth.patient' not in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+
+
+
+
+    logs = Log.objects.order_by("dateTime")
+
+
+    context = {"messagenum": get_number_of_unread(user),'logs': logs}
+    return render(request, 'patients/adminViewLogs.html', context)

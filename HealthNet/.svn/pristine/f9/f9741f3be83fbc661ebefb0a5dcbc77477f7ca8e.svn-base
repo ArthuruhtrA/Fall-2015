@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Calendar</title>
+
+	{% load staticfiles %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+
+<p><br/><br/><br/>
+<div>
+	<table>
+		<th colspan=7>{{name}}'s Appointments</th>
+		<tr>
+			{% for day in matchingDates %}
+				<td>{{day}}</td>
+			{% endfor %}
+		</tr>
+		<tr>
+			{% for day in dayList %}
+				<td class="appt"><a href={{day.1}}><div>{{day.0}}</div></a></td>
+			{% endfor %}
+		</tr>
+
+	</table>
+</div>
+<br>
+<div>
+<a href="/nursecalendar"><input type="submit" value="Back"/></a>
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" ><input type="submit" value="Logout" /></a>
+</div>
+</body>
+
+
+</html>

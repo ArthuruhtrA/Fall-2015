@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Healthcare Patient Registration</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patients/PatientRegistration.css' %}" />
+
+</head>
+
+<body>
+
+	<p>{{ firstName }}</p>
+	<br>
+	<p>{{ lastName }}</p>
+	<br>
+	<p>{{ email }}</p>
+	<br>
+	<p>{{ city }}</p>
+	<br>
+	<p>{{ state }}</p>
+	<br>
+	<p>{{ address1 }}</p>
+	<br>
+	<p>{{ phone }}</p>
+	<br>
+	<p>{{ insuranceName }}</p>
+	<br>
+	<p>{{ insuranceID }}</p>
+	<br>
+	<p>{{ hospital }}</p>
+	<br>
+	<p>{{ emergencyContactFirstName }}</p>
+	<br>
+	<p>{{ emergencyContactLastName }}</p>
+	<br>
+	<p>{{ emergencyContactPhone }}</p>
+	<br>
+	<p>{{ emergencyContactEmail }}</p>
+	<br>
+	<p>{{ medicalInformation }}</p>
+	<br>
+
+
+
+<!--Copyright StackOverflowGooglers 2015-->
+<a href="/patienteditpatientdetails" >Edit</a>
+<a href="/calendar" >Home</a>
+
+
+</body>
+
+
+</html>

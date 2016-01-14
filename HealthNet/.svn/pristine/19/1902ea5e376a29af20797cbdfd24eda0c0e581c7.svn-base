@@ -1,0 +1,42 @@
+#Copyright StackOverflowGooglers 2015
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
+from django.contrib import auth
+from django.contrib.contenttypes.models import ContentType
+
+# Create your views here.
+
+
+def index(request):
+    if not request.user.is_anonymous():
+        return HttpResponseRedirect("/calendar")
+    if request.method == "POST":
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        email = request.POST.get('email', '')
+        firstname = request.POST.get('firstname', '')
+        lastname = request.POST.get('lastname', '')
+        if username == '' or password == password == '' or email == '':
+            return HttpResponseRedirect("/patientregistration")
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.last_name = lastname
+        user.first_name = firstname
+
+
+        permission = Permission.objects.get(name='Is Patient')
+        user.user_permissions.add(permission)
+
+
+
+        user.save()
+
+        return HttpResponseRedirect("/login")
+
+    else :
+        return render(request, 'patients/patientRegister.html', {})
+
+#Copyright StackOverflowGooglers 2015

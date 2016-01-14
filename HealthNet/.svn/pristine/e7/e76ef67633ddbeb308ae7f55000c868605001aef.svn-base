@@ -1,0 +1,118 @@
+p {
+    color : white;
+    text-align : center;
+	font-family : Ariel, sans-serif;
+}
+
+h1 {
+    color : white;
+    text-align : center;
+    font-family : Ariel, sans-serif;
+    font-weight : 900;
+    font-size : 3em;
+}
+
+body {
+    background : #99CCFF;
+}
+
+
+div {
+    background-color : transparent;
+    margin : auto;
+    padding-left : 15%;
+}
+
+#parent div {
+    display: inline-block;
+    width : 20%;
+}
+
+div.button {
+    border-radius: 25px;
+    background: #66AAFF;
+    padding: 40px;
+    width: 20%;
+    height: 150px;
+    margin-top : 30px;
+}
+
+div.button:hover {
+    margin-top: 15px;
+    padding-bottom : 55;
+    background: green;
+}
+
+#staff:hover {
+    background: blue;
+}
+
+#admin:hover {
+    background: grey;
+}
+
+ul {
+    list-style: none;
+    height: 100px;
+    width: 100%;
+    padding: 0px;
+}
+
+li {
+    text-align: left;
+	font-family : Ariel, sans-serif;
+}
+
+.news {
+    height: 200px;
+    width: 50%;
+	background-color: #b3d9ff;
+    padding: 0px;
+	overflow: auto;
+	text-align: left;
+	border-width: 4px;
+	border-style: inset;
+	border-color: #66AAFF;
+}
+
+h5 {
+	padding-left: 2.5em;
+	margin-bottom: 20px;
+	margin-top: 5px;
+	font-family : Ariel, sans-serif;
+}
+
+h4 {
+	margin-bottom: 5px;
+	margin-top: 20px;
+	font-family : Ariel, sans-serif;
+}
+
+h3 {
+	text-align: center;
+	font-family : Ariel, sans-serif;
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+hr {
+	display: block;
+	height: 2px;
+	border: 0;
+	border-top: 1px solid black;
+	margin: 1em 0;
+	padding: 0;
+}
+#Copyright 2015 StackOverflowGooglers

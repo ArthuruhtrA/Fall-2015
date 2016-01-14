@@ -1,0 +1,58 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import *
+from datetime import datetime
+from datetime import timedelta
+
+# Create your views here.
+
+def index(request):
+
+    user = request.user
+    #Redirect if not logged in
+    if 'auth.nurse' not in user.get_all_permissions() or 'auth.patient' not in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+
+
+
+
+    patients = Patient.objects.order_by("firstName")
+
+    visits = HospitalVisit.objects.order_by("dateAdmitted")
+
+    numberInHospitalCurrently = 0
+
+    numberOfPatients = 0
+
+    numberOfVisits = 0
+
+    timeSpentInVisits = 0
+
+    for patient in patients:
+        numberOfPatients += 1
+        if patient.isAdmitted:
+            numberInHospitalCurrently += 1
+
+    for visit in visits:
+        if visit.dateDischarged.toordinal() != getOrdinalOfNotYetDischarged():
+            numberOfVisits += 1
+            timeSpentInVisits += (visit.dateDischarged - visit.dateAdmitted).total_seconds()
+
+
+
+
+
+    logs = Log.objects.order_by("-dateTime")
+
+
+
+    if numberOfVisits == 0:
+        context = {"messagenum": get_number_of_unread(user),'logs': logs, "numInHospital": numberInHospitalCurrently,
+               "averageVisits": numberOfVisits/numberOfPatients, "averageLengthOfStay": "No visits"}
+    else:
+        context = {"messagenum": get_number_of_unread(user),'logs': logs, "numInHospital": numberInHospitalCurrently,
+               "averageVisits": numberOfVisits/numberOfPatients, "averageLengthOfStay": timeSpentInVisits / numberOfVisits}
+    return render(request, 'patients/adminViewLogs.html', context)

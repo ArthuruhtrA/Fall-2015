@@ -1,0 +1,31 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+
+from django.contrib import auth
+
+# Create your views here.
+
+
+def index(request):
+    if not request.user.is_anonymous():
+        return HttpResponseRedirect("/calendar")
+    if request.method == "POST":
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        email = request.POST.get('email', '')
+        firstname = request.POST.get('firstname', '')
+        lastname = request.POST.get('lastname', '')
+        if username == '' or password == password == '' or email == '':
+            return HttpResponseRedirect("/patientregistration")
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.last_name = lastname
+        user.first_name = firstname
+        user.save()
+
+        return HttpResponseRedirect("/login")
+
+    else :
+        return render(request, 'patients/patientRegister.html', {})

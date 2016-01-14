@@ -1,0 +1,21 @@
+Accounts that are installed by default.  
+All passwords are "pass"
+
+PATIENTS:
+Username: test_patient  
+Username: richard
+Username: bill
+Username: rastley
+
+DOCTORS:
+Username: test_doctor
+Username: mister
+
+NURSES:
+Username: test_nurse
+Username: amy
+
+
+HOSPITALS:
+Strong
+Rochester General

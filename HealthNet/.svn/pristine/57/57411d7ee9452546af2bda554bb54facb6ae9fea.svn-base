@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Calendar</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Nurse</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/nursecalendar">
+			<span class="glyphicon glyphicon-home"></span>
+			Home
+		</a></li>
+		<li class="dropdown active">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-calendar"></span>
+			Calendar<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="{{ backURL }}">Week</a></li>
+            <li class="active"><a href="#">Day</a></li>
+          </ul>
+        </li>
+		<li><a href="/listofpatients">
+		  <span class="glyphicon glyphicon-list"></span>
+		  List of Patients
+		</a></li>
+      </ul>
+	  <ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/nurseviewnursedetails">View Profile</a></li>
+            <li><a href="/nurseeditnursedetails">Edit Profile</a></li>
+          </ul>
+        </li>
+		<li>
+			<a href="/logout">
+				<span class="glyphicon glyphicon-log-out"></span>
+				Logout
+			</a>
+		</li>
+	  </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+	<div class="well col-md-offset-1 col-md-10">
+
+<p><br/><br/><br/>
+
+	<div>
+	<table border="5">
+		<th>{{ otherName }}'s Appointment(s) on {{ date }}</th>
+		{% for appointment in appointments %}
+
+        <tr><td bgcolor="CCCCCC"><a href="/nurseupdateappointment/{{appointment.3}}"><div>{{ appointment.0 }}</div></a></td></tr>
+		<tr><td bgcolor="#7588b9">{{ appointment.1 }}</td></tr>
+		<tr><td bgcolor="#7588b9">{{ appointment.2 }}</td></tr>
+	<br><br>
+    {% endfor %}
+	</table>
+	</div>
+<div>
+<br>
+<a href={{ backURL }} ><input type="submit" value="Back" /></a>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" ><input type="submit" value="Logout" /></a>
+</div>
+
+	</div>
+</div>
+</body>
+
+
+</html>

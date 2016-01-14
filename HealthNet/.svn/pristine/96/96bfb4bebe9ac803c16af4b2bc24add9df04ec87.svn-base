@@ -1,0 +1,53 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import Doctor
+from ..models import Appointment
+from ..models import Patient
+from ..models import log_add
+from datetime import datetime
+
+# Create your views here.
+def index(request):
+    user = request.user
+    testString = 'auth.doctor' in user.get_all_permissions()
+
+    if not testString:
+        return HttpResponseRedirect("/notauthorized")
+    if request.method == "POST":
+        month = request.POST.get('month', '')
+        day = request.POST.get('day', '')
+        year = request.POST.get('year', '')
+        patient = request.POST.get('patient', '')
+        time = request.POST.get('time', '')
+        if month == '' or day == '' or year == '' or patient == '' or time == '':
+            return render(request, 'patients/doctorCreateAppointment.html',
+                          {"errortext" : "Missing Required Field", "patients" : Patient.objects.order_by("firstName")})
+
+
+        doctor=Doctor.objects.get(userNameField=user.username)
+        patient = Patient.objects.get(lastName=patient.split()[1])
+
+
+        try:
+            appointment = Appointment(doctor=doctor, patient=patient,
+                                  dateTime=datetime.strptime(month + ' ' + day +  ' ' + year + ' ' + time + "00", '%B %d %Y %H:%M%S'),
+                                  hospital=patient.hospital)
+        except ValueError:
+            return render(request, 'patients/doctorCreateAppointment.html',
+                          {"errortext" : "Invalid Day", "patients" : Patient.objects.order_by("firstName")})
+
+
+
+        appointment.save()
+
+        log_add("Doctor " + str(doctor) + " created an appointment.")
+
+        return HttpResponseRedirect("/calendar")
+
+    else :
+
+
+        return render(request, 'patients/doctorCreateAppointment.html', { "patients" : Patient.objects.order_by("firstName") })

@@ -1,0 +1,60 @@
+from django.shortcuts import render
+
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+from ..models import *
+
+import datetime
+import patients.ViewsFolder.DoctorAdmitDischargePatient
+
+# Create your views here.
+
+def index(request):
+
+    user = request.user
+
+    #Redirect if not logged in
+    if 'auth.patient' not in user.get_all_permissions() or 'auth.doctor' in user.get_all_permissions():
+        return HttpResponseRedirect("/notauthorized")
+
+    userobj = Patient.objects.get(userNameField=user.username)
+
+
+
+
+
+
+
+    presriptionList = Prescription.objects.order_by("dateTime")
+
+    patientPrescriptionList = []
+
+
+    for prescription in presriptionList:
+        if userobj.id == prescription.patient.id:
+            patientPrescriptionList += [(prescription.dateTime, prescription.name, prescription.reason)]
+
+
+    testList = PatientTest.objects.order_by("dateTime")
+
+    patientTestList = []
+
+
+    for test in testList:
+        if userobj.id == test.patient.id:
+            patientTestList += [(test.dateTime, test.name, test.details)]
+
+
+
+    nameToSendBack = userobj.__str__()
+
+
+
+    patientPrescriptionList.reverse()
+
+    context = {"name": userobj.firstName + " " + userobj.lastName, "patientName": nameToSendBack,
+               'prescriptions': patientPrescriptionList,
+               'tests': patientTestList,
+               "messagenum": get_number_of_unread(user)}
+    return render(request, 'patients/patientExportInfo.html', context)

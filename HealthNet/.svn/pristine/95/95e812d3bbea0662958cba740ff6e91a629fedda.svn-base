@@ -1,0 +1,49 @@
+#Copyright StackOverflowGooglers 2015
+
+from django.shortcuts import render
+
+import patients.ViewsFolder.PatientCreateAppointment
+import patients.ViewsFolder.DoctorCreateAppointment
+import patients.ViewsFolder.DoctorPatientUpdateCancelAppointment
+import patients.ViewsFolder.HomePage
+import patients.ViewsFolder.NurseUpdateAppointment
+import patients.ViewsFolder.NurseViewCalendar
+import patients.ViewsFolder.PatientDoctorViewCalendar
+import patients.ViewsFolder.PatientEditViewDetails
+import patients.ViewsFolder.PatientRegistration
+import patients.ViewsFolder.PatientDoctorNurseLogout
+import patients.ViewsFolder.PatientDoctorNurseLogin
+import patients.ViewsFolder.NotAuthorized
+
+from django.http import HttpResponse, HttpResponseRedirect
+
+# Create your views here.
+
+
+def index(request):
+    return patients.ViewsFolder.HomePage.index(request)
+
+
+def PatientDoctorCalendar(request):
+    return patients.ViewsFolder.PatientDoctorViewCalendar.index(request)
+
+
+def PatientDoctorNurseLogout(request):
+    return patients.ViewsFolder.PatientDoctorNurseLogout.index(request)
+
+def PatientDoctorNurseLogin(request):
+    return patients.ViewsFolder.PatientDoctorNurseLogin.index(request)
+
+def PatientRegister(request):
+    return patients.ViewsFolder.PatientRegistration.index(request)
+
+def NotAuthorized(request):
+    return patients.ViewsFolder.NotAuthorized.index(request)
+
+def PatientCreateAppointment(request):
+    return patients.ViewsFolder.PatientCreateAppointment.index(request)
+
+def DoctorCreateAppointment(request):
+    return patients.ViewsFolder.DoctorCreateAppointment.index(request)
+
+#Copyright StackOverflowGooglers 2015

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet Log Viewer</title>
+
+	{% load staticfiles %}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'patients/js/bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'patients/strapify.css' %}">
+	<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">HealthNet <span class="glyphicon glyphicon-plus-sign"></span> Administrator</span>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+		<li><a href="/administration">
+			<span class="glyphicon glyphicon-home"></span>
+			Home
+		</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-plus"></span>
+			Create Account<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/createdoctor">Create Doctor</a></li>
+            <li><a href="/createnurse">Create Nurse</a></li>
+          </ul>
+        </li>
+		<li class="active"><a href="/viewlogs">
+			<span class="glyphicon glyphicon-eye-open"></span>
+			View Logs
+		</a></li>
+		<li><a href="/messageboard">
+			<span class="glyphicon glyphicon-bullhorn"></span>
+			Message Board
+		</a></li>
+		<li><a href="/admin">
+			<span class="glyphicon glyphicon-cog"></span>
+			Advanced Settings
+		</a></li>
+      </ul>
+    </div>
+    <div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/messaging">
+			  <span class="glyphicon glyphicon-envelope"></span>
+			  <span class="badge badge-notification{% if messagenum > 10 %} badge-error{% elif messagenum > 0 %} badge-success{% endif %}">{{ messagenum }}</span>
+			  <!-- Messages -->
+			</a></li>
+		<li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ name }}<span class="caret"></span>
+		  </a>
+          <ul class="dropdown-menu">
+			<li><a href="/adminviewadmindetails">View Profile</a></li>
+            <li><a href="/admineditadmindetails">Edit Profile</a></li>
+          </ul>
+        </li>
+			<li>
+				<a href="/logout">
+					<span class="glyphicon glyphicon-log-out"></span>
+					Logout
+				</a>
+			</li>
+		</ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="col-md-1">
+<a href=/administration class="btn btn-default" data-spy="affix">Back</a>
+  </div>
+    <div class="well col-md-10">
+
+		<div class="panel">
+			Number of patients currently in the hospitals: {{ numInHospital }}<br>
+			Average number of visits per patient:  {{ averageVisits }}<br>
+			Average length of stay:  {{ averageLengthOfStay }} hours<br>
+
+			Most common reason for hospital visit:  {{ mostPopularReason }}<br>
+
+		</div>
+
+
+	<div class="panel">
+	<table class="table table-striped">
+		<tr>
+			<th>Time</th>
+			<th>Action</th>
+		</tr>
+		{% for log in logs %}
+		<tr>
+			<td>
+				{{log.dateTime}}
+			</td>
+			<td>
+				{{log.action}}
+			</td>
+		</tr>
+    {% endfor %}
+	</table>
+	</div>
+<div>
+
+<!--Copyright StackOverflowGooglers 2015-->
+
+<a href="/logout" class="btn btn-default">Logout</a>
+</div>
+	</div>
+</div>
+</body>
+
+
+</html>
